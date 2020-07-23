@@ -13,6 +13,7 @@ os.chdir("D:/script cours/OCprojet6")
 # Ouvrir le menu principale
 choix = "a"
 while choix != "Q":
+    os.system("cls")
     menu_principal()
     choix = input ("Que voulez-vous faire : ")
     if choix == "1":   # Créer un site
@@ -32,7 +33,7 @@ while choix != "Q":
 
 
 ## CREATION SITE
-# Saisir n° site
+
 # Afficher VLAN2
 # Afficher VLAN3
 # Afficher VLAN99
