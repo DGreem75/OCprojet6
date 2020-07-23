@@ -26,3 +26,6 @@ os.chdir("D:/script cours/OCprojet6")
 # Saisir si switch niveau 1 ou 2
 # => vérifier si switch à créer n'existe pas (test ping par exemple)
 # => genérer configuration switch du site n° saisi
+
+# test commit
+# test push
