@@ -1,4 +1,4 @@
-# -*-coding:Latin-1 -*
+# -*-coding: utf-8 -*
 import os
 os.chdir("D:/script cours/OCprojet6")
 
