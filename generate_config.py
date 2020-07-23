@@ -16,6 +16,7 @@ while choix != "Q":
     os.system("cls")
     menu_principal()
     choix = input ("Que voulez-vous faire : ")
+    # os.system("pause")
     if choix == "1":   # Créer un site
         conf_site()
     elif choix =="2":  # Créer un routeur

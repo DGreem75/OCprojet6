@@ -6,4 +6,4 @@ def menu_principal ():
     print (" Créer un routeur        :   2")
     print (" Créer un switch         :   3")
     # print (" Créer .....           :   4")
-    print (" Quitter                 :   Q")
+    print (" Quitter                 :   Q \n\n")

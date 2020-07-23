@@ -1,45 +1,37 @@
 conf t
-	hostname ros00101
+hostname $hostname
 int gi0/0
 no shutdown
-
 int gi0/0.2
 encap dot1Q 2
-	ip add 10.1.2.254 255.255.255.0
+ip add $ip_vlan2_gw 255.255.255.0
 exit
-
 int gi0/0.3
 encap dot1Q 3
-	ip add 10.1.3.254 255.255.255.0
+ip add $ip_vlan3_gw 255.255.255.0
 exit
-
 int gi0/0.99
 encap dot1Q 99
-	ip add 10.1.99.30 255.255.255.224
+ip add $ip_vlan99_gw 255.255.255.224
 exit
-
 service dhcp
 ip dhcp pool VLAN2
-	network 10.1.2.0 255.255.255.0
-	default-router 10.1.2.254
+network $ip_vlan2 255.255.255.0
+default-router $ip_vlan2_gw
 exit
-
 service dhcp
 ip dhcp pool VLAN3
-	network 10.1.3.0 255.255.255.0
-	default-router 10.1.3.254
+network $ip_vlan3 255.255.255.0
+default-router $ip_vlan3_gw
 end
-
 conf t
 int gi0/1
-	ip address 192.168.122.10 255.255.255.0
+ip address 192.168.122.10 255.255.255.0
 no shutdown
 end
-
 conf t
 ip route 0.0.0.0 0.0.0.0 192.168.122.10
 end
-
 conf t
 int gi0/1
 ip nat outside
