@@ -27,18 +27,8 @@ while choix != "Q":
         print ("\n\n    -- MERCI A BIENTOT -- \n\n\n")        
     else:
         print ("\n\n -- Mauvais choix ;-) -- \n\n")
+        os.system("pause")
 
-
-
-
-
-
-## CREATION SITE
-
-# Afficher VLAN2
-# Afficher VLAN3
-# Afficher VLAN99
-# Creation fichier sxxx.txt  xxx = n° du site
 
 # Création routeur
 # Saisir le n° du site
