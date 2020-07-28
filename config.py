@@ -148,24 +148,21 @@ def conf_sw ():
 
     os.system("cls")
     print ("\n CONFIGURATION SWITCHS \n")
+
+    # dans quel site le switch doit être créé
     site_num = -1
     while site_num < 0 and site_num <= 255:
         site_number = input( "Dans quel site vous voulez-créer le switch ?\n Veuillez saisir un numéro de site entre 1 et 255.\n Saisir le n° du site: ")
         site_num = int(site_number)
         if site_num == 0:
             print("\nLe site '0' n'existe pas.\n")
-            print("\n Merci de saisir un numéro de site entre 2 et 255.\n")
+            print("\n Merci de saisir un numéro de site entre 1 et 255.\n")
         elif site_num > 255:
             print("\nLe numério de site ne peut pas être plus de 255.\n")
             print("\n Merci de saisir un numéro de site entre 1 et 255.\n")
         else:
             print("\n Le fichier de config va être généré.\n")
     
-    site = "s"+ site_number.rjust(3, '0')  # permet d'écrire le numéro du site sur 3 chiffre ex: 1 => 001
-    file_site = "site/"+ site + ".csv"
-    sw_number = "sw"+site+"01"
-    sw_file_config = "config/"+sw_number
-
     try:   # en 1er test si le site existe
         open(file_site, "r")
         print ("\n  Le site existe ! ")
@@ -174,13 +171,27 @@ def conf_sw ():
         print ("\n  Le site n'existe pas encore.\n  Vous devez créer le site avant, merci. \n  Vous allez être redirigé vers le Menu Principal \n")
         os.system("pause")
         return "site inexistant"
+    
+    # quel niveau de switch doit être créé
+    niveau_sw = -1
+    while niveau_sw < 1 or niveau_sw > 2:
+        niveau_sw = input(" Saisir le niveau du switch 1 ou 2: ")
+        niveau_sw = int(niveau_sw)
+    
 
-    try:   # en 2 test si le fichier de config du routeur existe déjà
+    site = "s"+ site_number.rjust(3, '0')  # permet d'écrire le numéro du site sur 3 chiffre ex: 1 => 001
+    file_site = "site/"+ site + ".csv"
+    sw_number = "sw"+site+niveau_sw+"01"
+    sw_file_config = "config/"+sw_number
+
+    
+
+    try:   # en 2 test si le fichier de config du switch existe déjà
         open(sw_file_config, "r")
-        print("\n  Le Switch {0} existe déjà. \n  Le fichier de configuration existant sera écrasé. ",sw_number)
+        print("\n  Le Switch ", sw_number ," existe déjà. \n  Le fichier de configuration existant sera écrasé.")
         os.system("pause")
     except FileNotFoundError:
-        print ("\n  Le Switch {} n'existe pas encore.\n", sw_number ,"va être générer.\n")
+        print ("\n  Le Switch n'existe pas encore.\n", sw_number ,"va être générer.\n")
         os.system("pause")
 
     temp_switch_config = open("template/switch_1.txt", "r")

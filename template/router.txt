@@ -36,3 +36,14 @@ conf t
 int gi0/1
 ip nat outside
 end
+
+conf t
+ip domain-name local.fr
+username field privilege 15 password Azerty@39
+service password-encryption
+enable secret Azerty@39
+ip ssh version 2
+line vty 0 4
+transport input ssh
+login local
+end
