@@ -53,7 +53,7 @@ def conf_ro ():
     print (" \n CONFIGURATION ROUTEURS \n")
     site_number = input( "Dans quel site vous voulez-créer le routeur ? saisir le n° du site: ")
     site = "s"+ site_number.rjust(3, '0')  # permet d'écrire le numéro du site sur 3 chiffre ex: 1 => 001
-    file_site = "site/"+ site + ".txt"
+    file_site = "site/"+ site + ".csv"
     ro_number = "ro"+site+"01"
     ro_file_config = "config/"+ro_number
 
@@ -71,7 +71,7 @@ def conf_ro ():
         print("\n  Le Router existe déjà. \n  Le fichier de configuration existant sera écrasé. ",ro_number)
         os.system("sleep 3")
     except FileNotFoundError:
-        print ("\n  Le Routeur {} n'existe pas encore.\n")
+        print ("\n  Le Routeur n'existe pas encore.\n")
         os.system("sleep 3")
     
     config=[]

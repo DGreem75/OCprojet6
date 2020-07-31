@@ -7,13 +7,13 @@ from menu import *
 from config import *
 
 # Se placer dans notre dossier de travail
-os.chdir("D:/script cours/OCprojet6")
+os.chdir("/home/david/OCprojet6")
 
 
 # Ouvrir le menu principale
 choix = "a"
 while choix != "Q":
-    os.system("cls")
+    os.system("clear")
     menu_principal()
     choix = input ("Que voulez-vous faire : ")
     # os.system("pause")
