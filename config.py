@@ -3,12 +3,16 @@
 # import des modules
 import os
 
+#définition de listes pour la configuration
+
 # Création des site
 def conf_site ():
     os.system("clear")
     print (" \n CREATION D'UN SITE \n")
     # Saisir et définition du n° site
     site_number = input( "Saisir le numéro du site à créer: ")
+    ip_wan_site = input( "Saisir l'adresse IP WAN du site (ex:192.168.122.10): ")
+    mask_wan_site = input( "Saisir  le masque du WAN du site (ex:255.255.255.0): ")
     site = "s"+ site_number.rjust(3, '0')  # permet d'écrire le numéro du site sur 3 chiffre ex: 1 => 001
     file_site = "site/"+ site + ".csv"
     
@@ -38,6 +42,11 @@ def conf_site ():
     file.write(vlan99_site)   # ip du vlan
     file.write(";255.255.255.224;")   # masque du vlan
     file.write(vlan99_site_gw)  # gw du vlan
+    file.write("\n")   # saut de ligne
+    file.write("IP;ip-wan;")
+    file.write(ip_wan_site)  # ip du wan du site
+    file.write(";")
+    file.write(mask_wan_site)  # masque du wan du site
     # pas de saut de ligne en fin de fichier
     file.close()
 
@@ -45,13 +54,31 @@ def conf_site ():
     with open(file_site, "r") as fichier:
         for ligne in fichier:
             print (ligne)
+    print ("\n Site créé.\n")
     os.system("sleep 3")
 
 # Création des routeurs
 def conf_ro ():
+    # définition des listes
+    config=[]
+    valeur_site=[]
+
     os.system("clear")
     print (" \n CONFIGURATION ROUTEURS \n")
-    site_number = input( "Dans quel site vous voulez-créer le routeur ? saisir le n° du site: ")
+    #site_number = input( "Dans quel site vous voulez-créer le routeur ? saisir le n° du site: ")
+    site_num = 0
+    while site_num <= 1 and site_num <= 255:
+        site_number = input( "Dans quel site vous voulez-créer le routeur ?\n Veuillez saisir un numéro de site entre 2 et 255.\n Saisir le n° du site: ")
+        site_num = int(site_number)
+        if site_num == 1:
+            print("\nLe site '1' ne peut pas être généré ici.\n")
+            print("\n Merci de saisir un numéro de site entre 2 et 255.\n")
+        elif site_num > 255:
+            print("\nLe numério de site ne peut pas être plus de 255.\n")
+            print("\n Merci de saisir un numéro de site entre 2 et 255.\n")
+        else:
+            print("\n Le fichier de config va être généré.\n")
+    
     site = "s"+ site_number.rjust(3, '0')  # permet d'écrire le numéro du site sur 3 chiffre ex: 1 => 001
     file_site = "site/"+ site + ".csv"
     ro_number = "ro"+site+"01"
@@ -60,50 +87,131 @@ def conf_ro ():
     try:   # en 1er test si le site existe
         open(file_site, "r")
         print ("\n  Le site existe ! ")
-        os.system("sleep 3")
+        os.system("sleep 1")
     except FileNotFoundError:
         print ("\n  Le site n'existe pas encore.\n  Vous devez créer le site avant, merci. \n  Vous allez être redirigé vers le Menu Principal \n")
-        os.system("sleep 3")
+        os.system("sleep 1")
         return "site inexistant"
 
     try:   # en 2 test si le fichier de config du routeur existe déjà
         open(ro_file_config, "r")
         print("\n  Le Router existe déjà. \n  Le fichier de configuration existant sera écrasé. ",ro_number)
-        os.system("sleep 3")
+        os.system("sleep 1")
     except FileNotFoundError:
-        print ("\n  Le Routeur n'existe pas encore.\n")
-        os.system("sleep 3")
-    
-    config=[]
+        print ("\n  Le Routeur n'existe pas encore.\n",ro_number)
+        os.system("sleep 1")
+
     temp_router_config = open("template/router.txt", "r")
     for ligne in temp_router_config:
         config.append(ligne)  # notre template de config est dans une liste
     temp_router_config.close()
-    # print(config)
+
+    temp_file_site = open(file_site, "r")
+    for ligne in temp_file_site:
+        s = ligne.strip("\n")
+        l = s.split(";")
+        valeur_site.append(l)  # les valeurs de notre site sont dans une liste de liste
+    temp_file_site.close()
+    
+    # récupération valeur de VLAN2
+    valeur_vlan2 = valeur_site[0]
+    # récupération valeur de VLAN3
+    valeur_vlan3 = valeur_site[1]
+    # récupération valeur de VLAN99
+    valeur_vlan99 = valeur_site[2]
+    # récupération IP WAN du routeur
+    valeur_ip_wan = valeur_site[3]
+
     # modification des variables $ du template
     # hostane en ligne 2
     config[1]="hostane "+ro_number+"\n"
     # ip de la gw du vlan2 en ligne 7
-    config[6]="hostane "+ro_number+"\n"
+    config[6]="ip add "+valeur_vlan2[4]+" "+valeur_vlan2[3]+"\n"
     # ip de la gw du vlan3 en ligne 11
-    config[10]="hostane "+ro_number+"\n"
+    config[10]="ip add "+valeur_vlan3[4]+" "+valeur_vlan3[3]+"\n"
     # ip de la gw du vlan99 en ligne 15
-    config[14]="hostane "+ro_number+"\n"
+    config[14]="ip add "+valeur_vlan99[4]+" "+valeur_vlan99[3]+"\n"
     # ip dhcp et gw du vlan2 en ligne 19-20
-    config[18]="hostane "+ro_number+"\n"
-    config[19]="hostane "+ro_number+"\n"
+    config[18]="network "+valeur_vlan2[2]+"\n"
+    config[19]="default-router "+valeur_vlan2[4]+"\n"
     # ip dhcp et gw du vlan3 en ligne 24-25
-    config[23]="hostane "+ro_number+"\n"
-    config[24]="hostane "+ro_number+"\n"
-    #print(config)
-    os.system("sleep 3")
+    config[24]="network "+valeur_vlan3[2]+"\n"
+    config[25]="default-router "+valeur_vlan3[4]+"\n"
+    config[29]="ip address "+valeur_ip_wan[2]+" "+valeur_ip_wan[3]+"\n"
+    print(config)
+    
+    # ecrire le fichier dans "config"
+    ro_generate_conf = open(ro_file_config, "w")
+    for li in range(len(config)):
+        ro_generate_conf.write(config[li])
+        #config[ligne]
+    ro_generate_conf.close()
+    print("\n Fichier config du routeur créé.\n")
+    os.system("pause")
 
 
 # Création des switchs
 def conf_sw ():
+    # définition des listes
+    config=[]
+    valeur_site=[]
+
+    os.system("clear")
     print ("\n CONFIGURATION SWITCHS \n")
-    print (" Créer un site           :   1")
-    print (" Créer un routeur        :   2")
-    print (" Créer un switch         :   3")
-    # print (" Créer .....           :   4")
-    print (" Quitter                 :   Q")
+
+    # dans quel site le switch doit être créé
+    site_num = -1
+    while site_num < 0 and site_num <= 255:
+        site_number = input( "Dans quel site vous voulez-créer le switch ?\n Veuillez saisir un numéro de site entre 1 et 255.\n Saisir le n° du site: ")
+        site_num = int(site_number)
+        if site_num == 0:
+            print("\nLe site '0' n'existe pas.\n")
+            print("\n Merci de saisir un numéro de site entre 1 et 255.\n")
+        elif site_num > 255:
+            print("\nLe numério de site ne peut pas être plus de 255.\n")
+            print("\n Merci de saisir un numéro de site entre 1 et 255.\n")
+        else:
+            print("\n Le fichier de config va être généré.\n")
+    
+    try:   # en 1er test si le site existe
+        open(file_site, "r")
+        print ("\n  Le site existe ! ")
+        os.system("slepp 1")
+    except FileNotFoundError:
+        print ("\n  Le site n'existe pas encore.\n  Vous devez créer le site avant, merci. \n  Vous allez être redirigé vers le Menu Principal \n")
+        os.system("sleep 1")
+        return "site inexistant"
+    
+    # quel niveau de switch doit être créé
+    niveau_sw = -1
+    while niveau_sw < 1 or niveau_sw > 2:
+        niveau_sw = input(" Saisir le niveau du switch 1 ou 2: ")
+        niveau_sw = int(niveau_sw)
+    
+
+    site = "s"+ site_number.rjust(3, '0')  # permet d'écrire le numéro du site sur 3 chiffre ex: 1 => 001
+    file_site = "site/"+ site + ".csv"
+    sw_number = "sw"+site+niveau_sw+"01"
+    sw_file_config = "config/"+sw_number
+
+    
+
+    try:   # en 2 test si le fichier de config du switch existe déjà
+        open(sw_file_config, "r")
+        print("\n  Le Switch ", sw_number ," existe déjà. \n  Le fichier de configuration existant sera écrasé.")
+        os.system("sleep 1")
+    except FileNotFoundError:
+        print ("\n  Le Switch n'existe pas encore.\n", sw_number ,"va être générer.\n")
+        os.system("sleep 1")
+
+    temp_switch_config = open("template/switch_1.txt", "r")
+    for ligne in temp_switch_config:
+        config.append(ligne)  # notre template de config est dans une liste
+    temp_switch_config.close()
+
+    temp_file_site = open(file_site, "r")
+    for ligne in temp_file_site:
+        s = ligne.strip("\n")
+        l = s.split(";")
+        valeur_site.append(l)  # les valeurs de notre site sont dans une liste de liste
+    temp_file_site.close()
