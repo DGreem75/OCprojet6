@@ -51,11 +51,21 @@ def conf_site ():
     file.close()
 
     #affichage du fichier site créé
-    with open(file_site, "r") as fichier:
+    with open(file_site, 'r') as fichier:
         for ligne in fichier:
             print (ligne)
     print ("\n Site créé.\n")
     os.system("sleep 3")
+
+# Ecrire le fichier "liste des devices existants"
+def write_list_device (device_name, device_ip):
+    file_device="list_device.csv"
+    file = open(file_device, 'a')
+    file.write(device_name)
+    file.write(";")
+    file.write(device_ip)
+    file.write("\n")
+    file.close()
 
 # Création des routeurs
 def conf_ro ():
@@ -86,19 +96,23 @@ def conf_ro ():
 
     try:   # en 1er test si le site existe
         open(file_site, "r")
-        print ("\n  Le site existe ! ")
-        os.system("sleep 1")
     except FileNotFoundError:
         print ("\n  Le site n'existe pas encore.\n  Vous devez créer le site avant, merci. \n  Vous allez être redirigé vers le Menu Principal \n")
         os.system("sleep 1")
         return "site inexistant"
+    else:
+        print ("\n  Le site existe ! ")
+        os.system("sleep 1")
 
     try:   # en 2 test si le fichier de config du routeur existe déjà
         open(ro_file_config, "r")
-        print("\n  Le Router existe déjà. \n  Le fichier de configuration existant sera écrasé. ",ro_number)
-        os.system("sleep 1")
     except FileNotFoundError:
         print ("\n  Le Routeur n'existe pas encore.\n",ro_number)
+        exist="non"
+        os.system("sleep 1")
+    else:
+        print("\n  Le Router existe déjà. \n  Le fichier de configuration existant sera écrasé. ",ro_number)
+        exist="oui" #permet de savoir si il faut ajouter le device à la liste de device existant
         os.system("sleep 1")
 
     temp_router_config = open("template/router.txt", "r")
@@ -138,6 +152,7 @@ def conf_ro ():
     config[24]="network "+valeur_vlan3[2]+"\n"
     config[25]="default-router "+valeur_vlan3[4]+"\n"
     config[29]="ip address "+valeur_ip_wan[2]+" "+valeur_ip_wan[3]+"\n"
+    config[38]="  Connection sur "+ro_number+"\n"
     print(config)
     
     # ecrire le fichier dans "config"
@@ -147,8 +162,13 @@ def conf_ro ():
         #config[ligne]
     ro_generate_conf.close()
     print("\n Fichier config du routeur créé.\n")
-    os.system("pause")
-
+    os.system("sleep 1")
+    #ajouter le device à la liste de devices existant pour le backup
+    if exist=="non":
+        write_list_device(ro_number, valeur_vlan99[4])
+    else:
+        print("Device existant, donc pas ajouter dans la liste de backup.\n\n")
+        os.system("sleep 3")
 
 # Création des switchs
 def conf_sw ():
@@ -158,50 +178,50 @@ def conf_sw ():
 
     os.system("clear")
     print ("\n CONFIGURATION SWITCHS \n")
-
-    # dans quel site le switch doit être créé
-    site_num = -1
-    while site_num < 0 and site_num <= 255:
+    site_num = 0
+    while site_num < 1 and site_num <= 255:
         site_number = input( "Dans quel site vous voulez-créer le switch ?\n Veuillez saisir un numéro de site entre 1 et 255.\n Saisir le n° du site: ")
         site_num = int(site_number)
-        if site_num == 0:
-            print("\nLe site '0' n'existe pas.\n")
-            print("\n Merci de saisir un numéro de site entre 1 et 255.\n")
-        elif site_num > 255:
-            print("\nLe numério de site ne peut pas être plus de 255.\n")
+        if site_num > 255:
             print("\n Merci de saisir un numéro de site entre 1 et 255.\n")
         else:
             print("\n Le fichier de config va être généré.\n")
     
+    site = "s"+ site_number.rjust(3, '0')  # permet d'écrire le numéro du site sur 3 chiffre ex: 1 => 001
+    file_site = "site/"+ site + ".csv"
+
     try:   # en 1er test si le site existe
         open(file_site, "r")
-        print ("\n  Le site existe ! ")
-        os.system("slepp 1")
     except FileNotFoundError:
         print ("\n  Le site n'existe pas encore.\n  Vous devez créer le site avant, merci. \n  Vous allez être redirigé vers le Menu Principal \n")
         os.system("sleep 1")
         return "site inexistant"
+    else:
+        print ("\n  Le site existe ! ")
+        os.system("sleep 1")
     
     # quel niveau de switch doit être créé
-    niveau_sw = -1
-    while niveau_sw < 1 or niveau_sw > 2:
+    niv_sw = 0
+    while niv_sw < 1 or niv_sw > 2:
         niveau_sw = input(" Saisir le niveau du switch 1 ou 2: ")
-        niveau_sw = int(niveau_sw)
-    
+        niv_sw = int(niveau_sw)
 
-    site = "s"+ site_number.rjust(3, '0')  # permet d'écrire le numéro du site sur 3 chiffre ex: 1 => 001
-    file_site = "site/"+ site + ".csv"
-    sw_number = "sw"+site+niveau_sw+"01"
+    # quel numéro de switch doit être créé
+    num_sw = 0
+    while num_sw < 1 :
+        numero_sw = input(" Saisir le numéro du switch : ")
+        num_sw = int(numero_sw)
+    numero_sw = numero_sw.rjust(2,'0')
+    sw_number = "sw"+site+niveau_sw+numero_sw
     sw_file_config = "config/"+sw_number
-
     
-
     try:   # en 2 test si le fichier de config du switch existe déjà
-        open(sw_file_config, "r")
-        print("\n  Le Switch ", sw_number ," existe déjà. \n  Le fichier de configuration existant sera écrasé.")
-        os.system("sleep 1")
+        open(sw_file_config, 'r')
     except FileNotFoundError:
         print ("\n  Le Switch n'existe pas encore.\n", sw_number ,"va être générer.\n")
+        os.system("sleep 1")
+    else:
+        print("\n  Le Switch ", sw_number ," existe déjà. \n  Le fichier de configuration existant sera écrasé.")
         os.system("sleep 1")
 
     temp_switch_config = open("template/switch_1.txt", "r")
