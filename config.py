@@ -79,19 +79,22 @@ def conf_ro ():
 
     try:   # en 1er test si le site existe
         open(file_site, "r")
-        print ("\n  Le site existe ! ")
-        os.system("pause")
     except FileNotFoundError:
         print ("\n  Le site n'existe pas encore.\n  Vous devez créer le site avant, merci. \n  Vous allez être redirigé vers le Menu Principal \n")
         os.system("pause")
         return "site inexistant"
+    else:
+        print ("\n  Le site existe ! ")
+        os.system("pause")
+
 
     try:   # en 2 test si le fichier de config du routeur existe déjà
-        open(ro_file_config, "r")
-        print("\n  Le Router {0} existe déjà. \n  Le fichier de configuration existant sera écrasé. ",ro_number)
-        os.system("pause")
+        open(ro_file_config, "r")   
     except FileNotFoundError:
         print ("\n  Le Routeur {} n'existe pas encore.\n",ro_number)
+        os.system("pause")
+    else:
+        print("\n  Le Router {0} existe déjà. \n  Le fichier de configuration existant sera écrasé. ",ro_number)
         os.system("pause")
 
     temp_router_config = open("template/router.txt", "r")
