@@ -1,7 +1,6 @@
 # -*-coding: utf-8 -*
 import os
 from subprocess import *
-#import time
 from time import strftime, gmtime
 
 os.chdir("/home/david/OCprojet6")
@@ -52,7 +51,10 @@ for n_device in range(len(devices)):
     # test si device ping => si ok alors on backup sinon log erreur
     if test_ping(ip_device)==0:
         print("Ma commande peut etre ok! \n")
-        cmd= "sshpass -p Azerty@39 ssh -o HostKeyAlgorithms=ssh-rsa,ssh-dss -o KexAlgorithms=diffie-hellman-group1-sha1 -o Ciphers=aes128-cbc,3des-cbc -o MACs=hmac-md5,hmac-sha1 field@"+ip_device+" \"show running-config\""+" > "+path_sav+name_device+".conf"
+        # commande via show running vers un fichier
+        # cmd= "sshpass -p Azerty@39 ssh -o HostKeyAlgorithms=ssh-rsa,ssh-dss -o KexAlgorithms=diffie-hellman-group1-sha1 -o Ciphers=aes128-cbc,3des-cbc -o MACs=hmac-md5,hmac-sha1 field@"+ip_device+" \"show running-config\""+" > "+path_sav+name_device+".conf"
+        # commande via show runnig vers serveur FTP
+        cmd= "sshpass -p Azerty@39 ssh -o HostKeyAlgorithms=ssh-rsa,ssh-dss -o KexAlgorithms=diffie-hellman-group1-sha1 -o Ciphers=aes128-cbc,3des-cbc -o MACs=hmac-md5,hmac-sha1 field@"+ip_device+" \"show running-config | redirect ftp://field:Azerty@39@10.1.2.100/"+path_sav+name_device+".conf\""
     #os.system("sshpass -p Azerty@39 ssh -o HostKeyAlgorithms=ssh-rsa,ssh-dss -o KexAlgorithms=diffie-hellman-group1-sha1 -o Ciphers=aes128-cbc,3des-cbc -o MACs=hmac-md5,hmac-sha1 field@10.1.2.254 "show running-config" > ros00101.conf")
     # print(cmd)
         retour = call(cmd, shell=True)
