@@ -4,7 +4,7 @@ from subprocess import *
 #import time
 from time import strftime, gmtime
 
-os.chdir("D:/script cours/OCprojet6")
+os.chdir("C:/Script/OCprojet6")
 
 #Définition fonction
 def test_ping(device_ip):

@@ -8,7 +8,7 @@ from config import *
 import subprocess
 
 # Se placer dans notre dossier de travail
-os.chdir("D:/script cours/OCprojet6")
+os.chdir("C:/Script/OCprojet6")
 
 
 # Ouvrir le menu principale
