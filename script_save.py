@@ -1,7 +1,7 @@
 # -*-coding: utf-8 -*
 import os
 from subprocess import *
-#import time
+import netmiko
 from time import strftime, gmtime
 
 os.chdir("C:/Script/OCprojet6")
@@ -16,6 +16,24 @@ def test_ping(device_ip):
     else:
         print("device ping pas\n")
         return 1
+
+def executer_commande_cisco(address_ip, user, passwd, commande):
+    #définition parametre connection Cisco
+    cisco = {
+        'device_type': 'cisco_ios', 'ip':address_ip,
+        'username':user, 'password':passwd,
+    }
+    print(cisco,"\n")
+    print(commande,"\n")
+    try:
+        net_connect = netmiko.ConnectHandler(**cisco)
+        net_connect.enable()
+        result = net_connect.send_command(commande)
+        print(result,"\n")
+    except:
+        return "nok"
+    else:
+        return "ok"
 
 # SCRIPT DE BACKUP DES SWITCHS ET ROUTEURS INSTALLES"
 
@@ -52,24 +70,35 @@ for n_device in range(len(devices)):
     # test si device ping => si ok alors on backup sinon log erreur
     if test_ping(ip_device)==0:
         print("Ma commande peut etre ok! \n")
-        cmd= "sshpass -p Azerty@39 ssh -o HostKeyAlgorithms=ssh-rsa,ssh-dss -o KexAlgorithms=diffie-hellman-group1-sha1 -o Ciphers=aes128-cbc,3des-cbc -o MACs=hmac-md5,hmac-sha1 field@"+ip_device+" \"show running-config\""+" > "+path_sav+name_device+".conf"
-    #os.system("sshpass -p Azerty@39 ssh -o HostKeyAlgorithms=ssh-rsa,ssh-dss -o KexAlgorithms=diffie-hellman-group1-sha1 -o Ciphers=aes128-cbc,3des-cbc -o MACs=hmac-md5,hmac-sha1 field@10.1.2.254 "show running-config" > ros00101.conf")
-    # print(cmd)
-        retour = call(cmd, shell=True)
-        print(retour)
-        print("\n")
+        cmd ="show running-config | redirect ftp://field:Azerty@39@10.1.2.100/sav/"+name_device
+        retour = executer_commande_cisco(ip_device,"field","Azerty@39",cmd)
+        #cmd= "echo \"show running\" | putty.exe -ssh field@"+ip_device+" -pw Azerty@39 > "+path_sav+name_device+".conf"
+    #os.system("putty.exe -ssh field@10.1.2.254 -pw Azerty@39 "show running-config" > ros00101.conf")
+        #print(cmd)
+        #retour = call(cmd, shell=True)
+        print(retour ,"\n")
     else:
-        retour = 255
+        retour = 100
 
-    if retour == 255:
+    if retour == 100:   # retour pink nok
         file_log = open(log , 'a')
         file_log.write(name_device)
-        file_log.write(" : save NOK\n")  # si erreur alors noté backup pas ok
+        file_log.write(" : save NOK - ping nok\n")  # si erreur alors noté backup pas ok
         file_log.close()
-    else:
+    elif retour == "nok":    # retour ping OK, mais commande pas ok
         file_log = open(log , 'a')
-        file_log.write(name_device)     # tout c'est bien passé - backup OK
-        file_log.write(" : save OK\n")
+        file_log.write(name_device)
+        file_log.write(" : save NOK - erreur commande\n")  # si erreur alors noté backup pas ok
+        file_log.close()
+    elif retour == "ok":     # retour ping OK et caommande ssh OK
+        file_log = open(log , 'a')
+        file_log.write(name_device)
+        file_log.write(" : save OK !!!\n")  # si erreur alors noté backup pas ok
+        file_log.close()
+    else:                # une erreur non gérée
+        file_log = open(log , 'a')
+        file_log.write(name_device)
+        file_log.write(" : save NOK - erreur inconnue\n")
         file_log.close()
 
 #  recuperer la configuration d'un switch ou routeur Cisco
