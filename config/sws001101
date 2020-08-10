@@ -1,5 +1,5 @@
 conf t
-hostname sws001101
+hostane sws001101
 
 vlan 2
 name vlan2
@@ -88,7 +88,7 @@ banner exec ^C^C
 banner incoming ^C^C
 banner login ^C
 ###############################
-  Connection sur SW
+  Connection sur SWS001101
 ###############################
 ^C
 ip domain-name local.fr

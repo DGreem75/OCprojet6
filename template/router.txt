@@ -18,6 +18,7 @@ service dhcp
 ip dhcp pool VLAN2
 network $ip_vlan2 255.255.255.0
 default-router $ip_vlan2_gw
+dns-server 8.8.8.8
 exit
 service dhcp
 ip dhcp pool VLAN3
@@ -26,24 +27,26 @@ default-router $ip_vlan3_gw
 end
 conf t
 int gi0/1
-ip address 192.168.122.10 255.255.255.0
+ip address $ip-wan 255.255.255.0
 no shutdown
-end
-conf t
-ip route 0.0.0.0 0.0.0.0 192.168.122.10
-end
-conf t
-int gi0/1
 ip nat outside
 end
-
 conf t
+banner exec^C^C
+banner incomming ^C^C
+banner login ^C
+#############################
+  Connection sur
+#############################
+^C
+ip route 0.0.0.0 0.0.0.0 192.168.122.10
 ip domain-name local.fr
-username field privilege 15 password Azerty@39
-service password-encryption
-enable secret Azerty@39
+crypto key generate rsa modulus 1024
 ip ssh version 2
 line vty 0 4
 transport input ssh
 login local
+username field privilege 15 password Azerty@39
+service password-encryption
+enable secret Azerty@39
 end
