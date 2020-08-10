@@ -1,5 +1,5 @@
 conf t
-	hostname sws001101
+hostname sws001101
 
 vlan 2
 name vlan2
@@ -81,4 +81,23 @@ int gi3/0
 switchport trunk encapsulation dot1q
 switchport mode trunk
 switchport trunk allow vlan 2-3,99
+end
+
+conf t
+banner exec ^C^C
+banner incoming ^C^C
+banner login ^C
+###############################
+  Connection sur SW
+###############################
+^C
+ip domain-name local.fr
+crypto key generate rsa modulus 1024
+ip ssh version 2
+line vty 0 4
+transport input ssh
+login local
+username field privilege 15 password Azerty@39
+service paswword encryption
+enable secret Azerty@39
 end
