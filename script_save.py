@@ -4,11 +4,11 @@ from subprocess import *
 #import time
 from time import strftime, gmtime
 
-os.chdir("/home/david/OCprojet6")
+os.chdir("D:/script cours/OCprojet6")
 
 #Définition fonction
 def test_ping(device_ip):
-    command="ping -c 2 "+device_ip
+    command="ping -n 2 "+device_ip
     ping_test = call(command, shell=True)
     if ping_test == 0:
         print("device ping\n")
