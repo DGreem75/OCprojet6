@@ -37,13 +37,19 @@ def executer_commande_cisco(address_ip, user, passwd, commande):
 
 # SCRIPT DE BACKUP DES SWITCHS ET ROUTEURS INSTALLES"
 
+# variable fixe:
+ip_serv_ftp = "10.1.2.90" # adresse ip du serveur FTP
+dir_config= "config/"
+dir_sav= "sav/"
+dir_ftp = "C:/temp/FTPWIN/"
+dir_log = "log/"
+file_device = "list_device.csv"
+
 # Lister les devices pour backup
-path_device="config/"
-path_sav="sav/"
-list_file="list_device.csv"
 devices=[]
 
 # créer la liste des devices à backuper
+list_file = dir_ftp+file_device
 liste_device = open(list_file, 'r')
 for ligne in liste_device:
     s = ligne.strip("\n")
@@ -58,7 +64,7 @@ print(heure)
 print("\n")
 
 # définition du nom de fichier de log
-log ="backup_"+heure+".log"
+log = dir_ftp+dir_log+"backup_"+heure+".log"
 print(log)
 
 # Pour chaque devices faire un backup FTP / SSH
@@ -70,12 +76,8 @@ for n_device in range(len(devices)):
     # test si device ping => si ok alors on backup sinon log erreur
     if test_ping(ip_device)==0:
         print("Ma commande peut etre ok! \n")
-        cmd ="show running-config | redirect ftp://field:Azerty@39@10.1.2.100/sav/"+name_device
+        cmd ="show running-config | redirect ftp://field:Azerty@39@"+ip_serv_ftp+"/"+dir_sav+name_device
         retour = executer_commande_cisco(ip_device,"field","Azerty@39",cmd)
-        #cmd= "echo \"show running\" | putty.exe -ssh field@"+ip_device+" -pw Azerty@39 > "+path_sav+name_device+".conf"
-    #os.system("putty.exe -ssh field@10.1.2.254 -pw Azerty@39 "show running-config" > ros00101.conf")
-        #print(cmd)
-        #retour = call(cmd, shell=True)
         print(retour ,"\n")
     else:
         retour = 100
@@ -90,7 +92,7 @@ for n_device in range(len(devices)):
         file_log.write(name_device)
         file_log.write(" : save NOK - erreur commande\n")  # si erreur alors noté backup pas ok
         file_log.close()
-    elif retour == "ok":     # retour ping OK et caommande ssh OK
+    elif retour == "ok":     # retour ping OK et commande ssh OK
         file_log = open(log , 'a')
         file_log.write(name_device)
         file_log.write(" : save OK !!!\n")  # si erreur alors noté backup pas ok

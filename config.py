@@ -3,6 +3,15 @@
 # import des modules
 import os
 
+# variable fixe:
+ip_serv_ftp = "10.1.2.90" # adresse ip du serveur FTP
+dir_config = "config/"
+dir_sav= "sav/"
+dir_ftp = "C:/temp/FTPWIN/"
+dir_log = "log/"
+dir_site = "site/"
+file_device = "list_device.csv"
+
 #définition de listes pour la configuration
 
 # Création des site
@@ -14,7 +23,7 @@ def conf_site ():
     ip_wan_site = input( "Saisir l'adresse IP WAN du site (ex:192.168.122.10): ")
     mask_wan_site = input( "Saisir  le masque du WAN du site (ex:255.255.255.0): ")
     site = "s"+ site_number.rjust(3, '0')  # permet d'écrire le numéro du site sur 3 chiffre ex: 1 => 001
-    file_site = "site/"+ site + ".csv"
+    file_site = dir_ftp+dir_site+site+ ".csv"
     
     # définition des VLANs du site
     #     vlan2
@@ -59,8 +68,8 @@ def conf_site ():
 
 # Ecrire le fichier "liste des devices existants"
 def write_list_device (device_name, device_ip):
-    file_device="list_device.csv"
-    file = open(file_device, 'a')
+    list_device=dir_ftp+file_device
+    file = open(list_device, 'a')
     file.write(device_name)
     file.write(";")
     file.write(device_ip)
@@ -90,9 +99,9 @@ def conf_ro ():
             print("\n Le fichier de config va être généré.\n")
     
     site = "s"+ site_number.rjust(3, '0')  # permet d'écrire le numéro du site sur 3 chiffre ex: 1 => 001
-    file_site = "site/"+ site + ".csv"
+    file_site = dir_ftp+dir_site+site+ ".csv"
     ro_number = "ro"+site+"01"
-    ro_file_config = "config/"+ro_number
+    ro_file_config = dir_ftp+dir_config+ro_number
 
     try:   # en 1er test si le site existe
         open(file_site, "r")
@@ -188,7 +197,7 @@ def conf_sw ():
             print("\n Le fichier de config va être généré.\n")
     
     site = "s"+ site_number.rjust(3, '0')  # permet d'écrire le numéro du site sur 3 chiffre ex: 1 => 001
-    file_site = "site/"+ site + ".csv"
+    file_site = dir_ftp+dir_site+site+ ".csv"
 
     try:   # en 1er test si le site existe
         open(file_site, "r")
@@ -219,7 +228,7 @@ def conf_sw ():
     #création du numero de switch ex: sws001101
     numero_sw = numero_sw.rjust(2,'0')
     sw_number = "sw"+site+niveau_sw+numero_sw
-    sw_file_config = "config/"+sw_number
+    sw_file_config = dir_ftp+dir_config+sw_number
     
     try:   # en 2 test si le fichier de config du switch existe déjà
         open(sw_file_config, 'r')
