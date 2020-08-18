@@ -77,6 +77,7 @@ def write_list_device (device_name, device_ip):
 
 # Lire et écrire la configuration d'un site dans une liste
 def read_site(site):
+    valeur_site=[]
     file_site = dir_ftp+dir_site+site+ ".csv"
     temp_file_site = open(file_site, "r")
     for ligne in temp_file_site:
@@ -110,7 +111,7 @@ def conf_ro ():
             print("\n Le fichier de config va être généré.\n")
     
     site = "s"+ site_number.rjust(3, '0')  # permet d'écrire le numéro du site sur 3 chiffre ex: 1 => 001
-    # file_site = dir_ftp+dir_site+site+ ".csv"
+    file_site = dir_ftp+dir_site+site+ ".csv"
     ro_number = "ro"+site+"01"
     ro_file_config = dir_ftp+dir_config+ro_number
 
@@ -197,9 +198,9 @@ def conf_ro ():
 # Création des switchs
 
 # fonctions pour le niveau des switchs.
-def conf_sw_level1():
+#def conf_sw_level1():
 
-def conf_sw_level2():
+#def conf_sw_level2():
 
 # Création des config des switchs
 def conf_sw ():
