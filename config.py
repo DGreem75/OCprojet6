@@ -191,12 +191,6 @@ def conf_ro ():
     
     # ecrire le fichier dans "config"
     write_config(config,ro_file_config,ro_number)
-    #ro_generate_conf = open(ro_file_config, "w")
-    #for li in range(len(config)):
-    #    ro_generate_conf.write(config[li])
-    #ro_generate_conf.close()
-    #print("\n Fichier config du routeur ", ro_number ," créé.\n")
-    #os.system("sleep 1")
     
     #ajouter le device à la liste de devices existant pour le backup
     write_list_device(exist,ro_number, valeur_vlan99[4])
@@ -257,22 +251,24 @@ def conf_sw_level1(site):
         os.system("sleep 1")
 
     # ecrire le fichier dans "config"
-    sw_generate_conf = open(sw_file_config, "w")
-    for li in range(len(config)):
-        sw_generate_conf.write(config[li])
+    write_config(config,sw_file_config,sw_number)
+    #sw_generate_conf = open(sw_file_config, "w")
+    #for li in range(len(config)):
+    #    sw_generate_conf.write(config[li])
         #config[ligne]
-    sw_generate_conf.close()
-    print("\n Fichier config du switch ", sw_number, " créé.\n")
-    os.system("sleep 1")
+    #sw_generate_conf.close()
+    #print("\n Fichier config du switch ", sw_number, " créé.\n")
+    #os.system("sleep 1")
 
     #ajouter le device à la liste de devices existant pour le backup
-    if exist=="non":
-        write_list_device(sw_number, ip_sw)
-        print("\nAjout de ",sw_number," à la liste des devices existants.\n")
-        os.system("sleep 3")
-    else:
-        print("Device existant, donc pas ajouter dans la liste de backup.\n\n")
-        os.system("sleep 3")
+    write_list_device(exist,sw_number, ip_sw)
+    #if exist=="non":
+    #    write_list_device(sw_number, ip_sw)
+    #    print("\nAjout de ",sw_number," à la liste des devices existants.\n")
+    #    os.system("sleep 3")
+    #else:
+    #    print("Device existant, donc pas ajouter dans la liste de backup.\n\n")
+    #    os.system("sleep 3")
 
 def conf_sw_level2(site,numero_sw):
     # définition liste, variable
@@ -326,22 +322,24 @@ def conf_sw_level2(site,numero_sw):
         os.system("sleep 1")
 
     # ecrire le fichier dans "config"
-    sw_generate_conf = open(sw_file_config, "w")
-    for li in range(len(config)):
-        sw_generate_conf.write(config[li])
-        #config[ligne]
-    sw_generate_conf.close()
-    print("\n Fichier config du switch ", sw_number, " créé.\n")
-    os.system("sleep 1")
+    write_config(config,sw_file_config,sw_number)
+    #sw_generate_conf = open(sw_file_config, "w")
+    #for li in range(len(config)):
+    #    sw_generate_conf.write(config[li])
+    #    #config[ligne]
+    #sw_generate_conf.close()
+    #print("\n Fichier config du switch ", sw_number, " créé.\n")
+    #os.system("sleep 1")
 
     #ajouter le device à la liste de devices existant pour le backup
-    if exist=="non":
-        write_list_device(sw_number, ip_sw)
-        print("\nAjout de ",sw_number," à la liste des devices existants.\n")
-        os.system("sleep 3")
-    else:
-        print("Device existant, donc pas ajouter dans la liste de backup.\n\n")
-        os.system("sleep 3")
+    write_list_device(exist,sw_number, ip_sw)
+    #if exist=="non":
+    #    write_list_device(sw_number, ip_sw)
+    #    print("\nAjout de ",sw_number," à la liste des devices existants.\n")
+    #    os.system("sleep 3")
+    #else:
+    #    print("Device existant, donc pas ajouter dans la liste de backup.\n\n")
+    #    os.system("sleep 3")
 
 # Création des config des switchs
 def conf_sw ():
