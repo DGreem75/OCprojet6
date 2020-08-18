@@ -4,11 +4,13 @@
 import os
 
 # variable globale
-ip_serv_ftp = "10.1.2.100"
-dir_ftp = "/home/share/"
-dir_site = "site/"
-dir_config ="config/"
-dir_sav ="sav/"
+ip_serv_ftp = "10.1.2.100" # adresse ip du serveur FTP
+dir_ftp = "/home/share/"   # répertoire de base du serveur FTP
+dir_site = "site/"         # répertoire pour les fichiers sites
+dir_config ="config/"      # répertoire pour les fichiers des config
+dir_sav ="sav/"            # répertoire pour les fichiers de backup
+dir_template = "template/" # répertoire pour les templates de config
+file_device = "list_device.csv"  # fichier qui liste les device existants
 
 # Création des site
 def conf_site ():
@@ -32,6 +34,7 @@ def conf_site ():
     vlan99_site = "10."+site_number+".99.0"  # définition du lan du VLAN
     vlan99_site_gw = "10."+site_number+".99.30"  # définition de la gw du VLAN
     
+    # création du fichier CSV du site
     file = open(file_site, "w")
     file.write("vlan2;vlan2;")  # nom du vlan + description
     file.write(vlan2_site)   # ip du vlan
@@ -64,7 +67,7 @@ def conf_site ():
 
 # Ecrire le fichier "liste des devices existants"
 def write_list_device (device_name, device_ip):
-    file_device=dir_ftp+"list_device.csv"
+    file_device=dir_ftp+file_device
     file = open(file_device, 'a')
     file.write(device_name)
     file.write(";")
@@ -117,10 +120,11 @@ def conf_ro ():
         os.system("sleep 1")
     else:
         print("\n  Le Router ", ro_number, " existe déjà. \n  Le fichier de configuration existant sera écrasé. ")
-        exist="oui" #permet de savoir si il faut ajouter le device à la liste de device existant
+        exist="oui" # permet de savoir si il faut ajouter le device à la liste de device existant
         os.system("sleep 1")
 
-    temp_router_config = open("template/router.txt", "r")
+    temp_ro = dir_ftp+dir_template+"routeur.txt"
+    temp_router_config = open(temp_ro, "r")
     for ligne in temp_router_config:
         config.append(ligne)  # notre template de config est dans une liste
     temp_router_config.close()
@@ -132,6 +136,7 @@ def conf_ro ():
         valeur_site.append(l)  # les valeurs de notre site sont dans une liste de liste
     temp_file_site.close()
     
+    # Récupération des valerus nécessaires à la modification du template
     # récupération valeur de VLAN2
     valeur_vlan2 = valeur_site[0]
     # récupération valeur de VLAN3
@@ -141,7 +146,7 @@ def conf_ro ():
     # récupération IP WAN du routeur
     valeur_ip_wan = valeur_site[3]
 
-    # modification des variables $ du template
+    # modification des variables du template
     # hostane en ligne 2
     config[1]="hostane "+ro_number+"\n"
     # ip de la gw du vlan2 en ligne 7
@@ -164,13 +169,14 @@ def conf_ro ():
     ro_generate_conf = open(ro_file_config, "w")
     for li in range(len(config)):
         ro_generate_conf.write(config[li])
-        #config[ligne]
     ro_generate_conf.close()
     print("\n Fichier config du routeur ", ro_number ," créé.\n")
     os.system("sleep 1")
     #ajouter le device à la liste de devices existant pour le backup
     if exist=="non":
         write_list_device(ro_number, valeur_vlan99[4])
+        print("\nAjout de ",ro_number," à la liste des devices existants.\n")
+        os.system("sleep 3")
     else:
         print("Device existant, donc pas ajouter dans la liste de backup.\n\n")
         os.system("sleep 3")
@@ -237,7 +243,9 @@ def conf_sw ():
         exist = "oui"
         os.system("sleep 1")
 
-    temp_switch_config = open("template/switch_1.txt", "r")
+    # définition du template du switch niveau1
+    temp_sw1 = dir_ftp+dir_template+"switch_1.txt"
+    temp_switch_config = open(temp_sw1, "r")
     for ligne in temp_switch_config:
         config.append(ligne)  # notre template de config est dans une liste
     temp_switch_config.close()
@@ -287,6 +295,8 @@ def conf_sw ():
     #ajouter le device à la liste de devices existant pour le backup
     if exist=="non":
         write_list_device(sw_number, ip_sw)
+        print("\nAjout de ",sw_number," à la liste des devices existants.\n")
+        os.system("sleep 3")
     else:
         print("Device existant, donc pas ajouter dans la liste de backup.\n\n")
         os.system("sleep 3")
