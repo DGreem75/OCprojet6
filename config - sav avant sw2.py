@@ -75,18 +75,6 @@ def write_list_device (device_name, device_ip):
     file.write("\n")
     file.close()
 
-# Lire et écrire la configuration d'un site dans une liste
-def read_site(site):
-    file_site = dir_ftp+dir_site+site+ ".csv"
-    temp_file_site = open(file_site, "r")
-    for ligne in temp_file_site:
-        s = ligne.strip("\n")
-        l = s.split(";")
-        valeur_site.append(l)  # les valeurs de notre site sont dans une liste de liste
-    temp_file_site.close()
-    return valeur_site
-
-
 # Création des routeurs
 def conf_ro ():
     # définition des listes
@@ -110,7 +98,7 @@ def conf_ro ():
             print("\n Le fichier de config va être généré.\n")
     
     site = "s"+ site_number.rjust(3, '0')  # permet d'écrire le numéro du site sur 3 chiffre ex: 1 => 001
-    # file_site = dir_ftp+dir_site+site+ ".csv"
+    file_site = dir_ftp+dir_site+site+ ".csv"
     ro_number = "ro"+site+"01"
     ro_file_config = dir_ftp+dir_config+ro_number
 
@@ -141,13 +129,12 @@ def conf_ro ():
         config.append(ligne)  # notre template de config est dans une liste
     temp_router_config.close()
 
-    valeur_site = read_site(site)
-    #temp_file_site = open(file_site, "r")
-    #for ligne in temp_file_site:
-    #    s = ligne.strip("\n")
-    #    l = s.split(";")
-    #    valeur_site.append(l)  # les valeurs de notre site sont dans une liste de liste
-    #temp_file_site.close()
+    temp_file_site = open(file_site, "r")
+    for ligne in temp_file_site:
+        s = ligne.strip("\n")
+        l = s.split(";")
+        valeur_site.append(l)  # les valeurs de notre site sont dans une liste de liste
+    temp_file_site.close()
     
     # Récupération des valerus nécessaires à la modification du template
     # récupération valeur de VLAN2
@@ -195,13 +182,6 @@ def conf_ro ():
         os.system("sleep 3")
 
 # Création des switchs
-
-# fonctions pour le niveau des switchs.
-def conf_sw_level1():
-
-def conf_sw_level2():
-
-# Création des config des switchs
 def conf_sw ():
     # définition des listes
     config=[]

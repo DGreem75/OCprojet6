@@ -7,12 +7,13 @@ from time import strftime, gmtime
 os.chdir("/home/david/OCprojet6")
 
 # Définition variable globale
-ip_serv_ftp = "10.1.2.100"
-dir_ftp = "/home/share/"
-dir_log = "log/"
-path_device="config/"
-path_sav="sav/"
-file_device="list_device.csv"
+ip_serv_ftp = "10.1.2.100" # adresse ip du serveur FTP
+dir_ftp = "/home/share/"   # répertoire de base du serveur FTP
+dir_site = "site/"         # répertoire pour les fichiers sites
+dir_config ="config/"      # répertoire pour les fichiers des config
+dir_sav ="sav/"            # répertoire pour les fichiers de backup
+dir_template = "template/" # répertoire pour les templates de config
+file_device = "list_device.csv"  # fichier qui liste les device existants
 
 
 #Définition fonction
@@ -82,16 +83,16 @@ for n_device in range(len(devices)):
         print("Ma commande peut etre ok! \n")
         
         # commande via ssh et show running vers un fichier
-        # cmd= "sshpass -p Azerty@39 ssh -o HostKeyAlgorithms=ssh-rsa,ssh-dss -o KexAlgorithms=diffie-hellman-group1-sha1 -o Ciphers=aes128-cbc,3des-cbc -o MACs=hmac-md5,hmac-sha1 field@"+ip_device+" \"show running-config\""+" > "+path_sav+name_device+".conf"
+        # cmd= "sshpass -p Azerty@39 ssh -o HostKeyAlgorithms=ssh-rsa,ssh-dss -o KexAlgorithms=diffie-hellman-group1-sha1 -o Ciphers=aes128-cbc,3des-cbc -o MACs=hmac-md5,hmac-sha1 field@"+ip_device+" \"show running-config\""+" > "+dir_sav+name_device+".conf"
 
         # commande via show runnig vers serveur FTP
-        # cmd= "sshpass -p Azerty@39 ssh -o HostKeyAlgorithms=ssh-rsa,ssh-dss -o KexAlgorithms=diffie-hellman-group1-sha1 -o Ciphers=aes128-cbc,3des-cbc -o MACs=hmac-md5,hmac-sha1 field@"+ip_device+" \"show running-config | redirect ftp://field:Azerty@39@10.1.2.100/"+path_sav+name_device+".conf\""
+        # cmd= "sshpass -p Azerty@39 ssh -o HostKeyAlgorithms=ssh-rsa,ssh-dss -o KexAlgorithms=diffie-hellman-group1-sha1 -o Ciphers=aes128-cbc,3des-cbc -o MACs=hmac-md5,hmac-sha1 field@"+ip_device+" \"show running-config | redirect ftp://field:Azerty@39@10.1.2.100/"+dir_sav+name_device+".conf\""
         
         # executer la commande via SSH
         #retour = call(cmd, shell=True)
 
         # Commande CIsco via NETMIKO
-        cmd= "show running-config | redirect ftp://field:Azerty@39@"+ip_serv_ftp+"/"+path_sav+name_device
+        cmd= "show running-config | redirect ftp://field:Azerty@39@"+ip_serv_ftp+"/"+dir_sav+name_device
         retour = executer_commande_cisco(ip_device,"field","Azerty@39",cmd)
 
         print(retour)
