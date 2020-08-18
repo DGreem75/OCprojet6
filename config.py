@@ -77,6 +77,7 @@ def write_list_device (device_name, device_ip):
 
 # Lire et écrire la configuration d'un site dans une liste
 def read_site(site):
+    valeur_site=[]
     file_site = dir_ftp+dir_site+site+ ".csv"
     temp_file_site = open(file_site, "r")
     for ligne in temp_file_site:
@@ -95,7 +96,6 @@ def conf_ro ():
 
     os.system("clear")
     print (" \n CONFIGURATION ROUTEURS \n")
-    #site_number = input( "Dans quel site vous voulez-créer le routeur ? saisir le n° du site: ")
     site_num = 0
     while site_num <= 1 and site_num <= 255:
         site_number = input( "Dans quel site vous voulez-créer le routeur ?\n Veuillez saisir un numéro de site entre 2 et 255.\n Saisir le n° du site: ")
@@ -110,7 +110,7 @@ def conf_ro ():
             print("\n Le fichier de config va être généré.\n")
     
     site = "s"+ site_number.rjust(3, '0')  # permet d'écrire le numéro du site sur 3 chiffre ex: 1 => 001
-    # file_site = dir_ftp+dir_site+site+ ".csv"
+    file_site = dir_ftp+dir_site+site+ ".csv"
     ro_number = "ro"+site+"01"
     ro_file_config = dir_ftp+dir_config+ro_number
 
@@ -141,13 +141,8 @@ def conf_ro ():
         config.append(ligne)  # notre template de config est dans une liste
     temp_router_config.close()
 
+    # récupération des valeurs du sites
     valeur_site = read_site(site)
-    #temp_file_site = open(file_site, "r")
-    #for ligne in temp_file_site:
-    #    s = ligne.strip("\n")
-    #    l = s.split(";")
-    #    valeur_site.append(l)  # les valeurs de notre site sont dans une liste de liste
-    #temp_file_site.close()
     
     # Récupération des valerus nécessaires à la modification du template
     # récupération valeur de VLAN2
@@ -197,9 +192,9 @@ def conf_ro ():
 # Création des switchs
 
 # fonctions pour le niveau des switchs.
-def conf_sw_level1():
+# def conf_sw_level1():
 
-def conf_sw_level2():
+# def conf_sw_level2():
 
 # Création des config des switchs
 def conf_sw ():
@@ -271,12 +266,7 @@ def conf_sw ():
     temp_switch_config.close()
 
     # récupération des valeurs du sites
-    temp_file_site = open(file_site, "r")
-    for ligne in temp_file_site:
-        s = ligne.strip("\n")
-        l = s.split(";")
-        valeur_site.append(l)  # les valeurs de notre site sont dans une liste de liste
-    temp_file_site.close()
+    valeur_site = read_site(site)
 
     # générer fichier de config
 
