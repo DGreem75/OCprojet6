@@ -66,14 +66,20 @@ def conf_site ():
     os.system("sleep 3")
 
 # Ecrire le fichier "liste des devices existants"
-def write_list_device (device_name, device_ip):
-    f_device=dir_ftp+file_device
-    file = open(f_device, 'a')
-    file.write(device_name)
-    file.write(";")
-    file.write(device_ip)
-    file.write("\n")
-    file.close()
+def write_list_device (exist,device_name, device_ip):
+    if exist=="non":
+        f_device=dir_ftp+file_device
+        file = open(f_device, 'a')
+        file.write(device_name)
+        file.write(";")
+        file.write(device_ip)
+        file.write("\n")
+        file.close()
+        print("\nAjout de ",device_name," à la liste des devices existants.\n")
+        os.system("sleep 3")
+    else:
+        print("Device existant, donc pas ajouter dans la liste de backup.\n\n")
+        os.system("sleep 3")
 
 # Lire et écrire la configuration d'un site dans une liste
 def read_site(site):
@@ -86,6 +92,16 @@ def read_site(site):
         valeur_site.append(l)  # les valeurs de notre site sont dans une liste de liste
     temp_file_site.close()
     return valeur_site
+
+# Ecrire le fichier de configugration d'un device
+def write_config(config,file,device):
+    # ecrire le fichier dans "config"
+    file_generate_conf = open(file, "w")
+    for li in range(len(config)):
+        file_generate_conf.write(config[li])
+    file_generate_conf.close()
+    print("\n Fichier config du ", device ," créé.\n")
+    os.system("sleep 1")
 
 
 # Création des routeurs
@@ -174,20 +190,16 @@ def conf_ro ():
     #print(config)
     
     # ecrire le fichier dans "config"
-    ro_generate_conf = open(ro_file_config, "w")
-    for li in range(len(config)):
-        ro_generate_conf.write(config[li])
-    ro_generate_conf.close()
-    print("\n Fichier config du routeur ", ro_number ," créé.\n")
-    os.system("sleep 1")
+    write_config(config,ro_file_config,ro_number)
+    #ro_generate_conf = open(ro_file_config, "w")
+    #for li in range(len(config)):
+    #    ro_generate_conf.write(config[li])
+    #ro_generate_conf.close()
+    #print("\n Fichier config du routeur ", ro_number ," créé.\n")
+    #os.system("sleep 1")
+    
     #ajouter le device à la liste de devices existant pour le backup
-    if exist=="non":
-        write_list_device(ro_number, valeur_vlan99[4])
-        print("\nAjout de ",ro_number," à la liste des devices existants.\n")
-        os.system("sleep 3")
-    else:
-        print("Device existant, donc pas ajouter dans la liste de backup.\n\n")
-        os.system("sleep 3")
+    write_list_device(exist,ro_number, valeur_vlan99[4])
 
 # Création des switchs
 
@@ -296,11 +308,11 @@ def conf_sw_level2(site,numero_sw):
     # hostane en ligne 2
     config[1]="hostame "+sw_number+"\n"
     # config IP dans vlan99 management
-    config[53]="ip default-gateway "+valeur_vlan99[4]+"\n"
-    config[54]="ip route 0.0.0.0 0.0.0.0 "+valeur_vlan99[4]+"\n"
-    config[56]="ip address "+ip_sw+" "+valeur_vlan99[3]+"\n"
+    config[87]="ip default-gateway "+valeur_vlan99[4]+"\n"
+    config[88]="ip route 0.0.0.0 0.0.0.0 "+valeur_vlan99[4]+"\n"
+    config[90]="ip address "+ip_sw+" "+valeur_vlan99[3]+"\n"
     # config bannière
-    config[90]="  Connection sur "+sw_number.upper()+"\n"
+    config[99]="  Connection sur "+sw_number.upper()+"\n"
 
     try:   # test si le fichier de config du switch existe déjà
         open(sw_file_config, 'r')
