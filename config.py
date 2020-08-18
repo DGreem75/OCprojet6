@@ -378,5 +378,3 @@ def conf_sw ():
         numero_sw="1"
         print(" Le switch de niveau 1 va etre généré.\n")
         conf_sw_level1(site)
-
-
