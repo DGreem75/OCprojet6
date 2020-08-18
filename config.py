@@ -67,8 +67,8 @@ def conf_site ():
 
 # Ecrire le fichier "liste des devices existants"
 def write_list_device (device_name, device_ip):
-    file_device=dir_ftp+file_device
-    file = open(file_device, 'a')
+    f_device=dir_ftp+file_device
+    file = open(f_device, 'a')
     file.write(device_name)
     file.write(";")
     file.write(device_ip)
@@ -192,15 +192,150 @@ def conf_ro ():
 # Création des switchs
 
 # fonctions pour le niveau des switchs.
-# def conf_sw_level1():
+def conf_sw_level1(site):
+    # définition liste
+    config=[]
 
-# def conf_sw_level2():
+    #definition nom du switch
+    #création du numero de switch ex: sws001101
+    #numero_sw = numero_sw.rjust(2,'0')
+    sw_number = "sw"+site+"101"
+    sw_file_config = dir_ftp+dir_config+sw_number
+
+    # définition du template du switch niveau1
+    temp_sw1 = dir_ftp+dir_template+"switch_1.txt"
+    temp_switch_config = open(temp_sw1, "r")
+    for ligne in temp_switch_config:
+        config.append(ligne)  # notre template de config est dans une liste
+    temp_switch_config.close()
+
+    # récupération des valeurs du sites
+    valeur_site = read_site(site)
+
+    # générer fichier de config
+    # récupération valeur de VLAN99
+    valeur_vlan99 = valeur_site[2]
+    #adresse ip du switch dans le VLAN99 suivant niveau et numéro de switch
+    ip_lan_vlan99 = valeur_vlan99[2]  # retour ok adresse ip du lan
+
+    ip_sw_vlan99=ip_lan_vlan99.split(".") # découpage de l'adresse IP dans une liste
+    ip_sw_vlan99[3]="1"
+    
+    #reconstitution adresse IP du switch
+    ip_sw = ip_sw_vlan99[0]+"."+ip_sw_vlan99[1]+"."+ip_sw_vlan99[2]+"."+ip_sw_vlan99[3]
+
+    # modification des variables $ du template
+    # hostane en ligne 2
+    config[1]="hostane "+sw_number+"\n"
+    # config IP dans vlan99 management
+    config[53]="ip default-gateway "+valeur_vlan99[4]+"\n"
+    config[54]="ip route 0.0.0.0 0.0.0.0 "+valeur_vlan99[4]+"\n"
+    config[56]="ip address "+ip_sw+" "+valeur_vlan99[3]+"\n"
+    # config bannière
+    config[90]="  Connection sur "+sw_number.upper()+"\n"
+
+    try:   # test si le fichier de config du switch existe déjà
+        open(sw_file_config, 'r')
+    except FileNotFoundError:
+        print ("\n  Le Switch n'existe pas encore.\n", sw_number ,"va être générer.\n")
+        exist = "non"
+        os.system("sleep 1")
+    else:
+        print("\n  Le Switch ", sw_number ," existe déjà. \n  Le fichier de configuration existant sera écrasé.")
+        exist = "oui"
+        os.system("sleep 1")
+
+    # ecrire le fichier dans "config"
+    sw_generate_conf = open(sw_file_config, "w")
+    for li in range(len(config)):
+        sw_generate_conf.write(config[li])
+        #config[ligne]
+    sw_generate_conf.close()
+    print("\n Fichier config du switch ", sw_number, " créé.\n")
+    os.system("sleep 1")
+
+    #ajouter le device à la liste de devices existant pour le backup
+    if exist=="non":
+        write_list_device(sw_number, ip_sw)
+        print("\nAjout de ",sw_number," à la liste des devices existants.\n")
+        os.system("sleep 3")
+    else:
+        print("Device existant, donc pas ajouter dans la liste de backup.\n\n")
+        os.system("sleep 3")
+
+def conf_sw_level2(site,numero_sw):
+    # définition liste, variable
+    config=[]
+    num_sw = int(numero_sw)
+    sw_number = "sw"+site+"2"+numero_sw
+    sw_file_config = dir_ftp+dir_config+sw_number
+
+    # définition du template du switch niveau1
+    temp_sw2 = dir_ftp+dir_template+"switch_2.txt"
+    temp_switch_config = open(temp_sw2, "r")
+    for ligne in temp_switch_config:
+        config.append(ligne)  # notre template de config est dans une liste
+    temp_switch_config.close()
+
+    # récupération des valeurs du sites
+    valeur_site = read_site(site)
+
+    # générer fichier de config
+    # récupération valeur de VLAN99
+    valeur_vlan99 = valeur_site[2]
+    #adresse ip du switch dans le VLAN99 suivant niveau et numéro de switch
+    ip_lan_vlan99 = valeur_vlan99[2]  # retour ok adresse ip du lan
+
+    ip_sw_vlan99=ip_lan_vlan99.split(".") # découpage de l'adresse IP dans une liste
+    ip_sw_vlan99[3]=num_sw+1
+    ip_sw_vlan99[3]=str(ip_sw_vlan99[3])
+    
+    #reconstitution adresse IP du switch
+    ip_sw = ip_sw_vlan99[0]+"."+ip_sw_vlan99[1]+"."+ip_sw_vlan99[2]+"."+ip_sw_vlan99[3]
+
+    # modification des variables $ du template
+    # hostane en ligne 2
+    config[1]="hostane "+sw_number+"\n"
+    # config IP dans vlan99 management
+    config[53]="ip default-gateway "+valeur_vlan99[4]+"\n"
+    config[54]="ip route 0.0.0.0 0.0.0.0 "+valeur_vlan99[4]+"\n"
+    config[56]="ip address "+ip_sw+" "+valeur_vlan99[3]+"\n"
+    # config bannière
+    config[90]="  Connection sur "+sw_number.upper()+"\n"
+
+    try:   # test si le fichier de config du switch existe déjà
+        open(sw_file_config, 'r')
+    except FileNotFoundError:
+        print ("\n  Le Switch n'existe pas encore.\n", sw_number ,"va être générer.\n")
+        exist = "non"
+        os.system("sleep 1")
+    else:
+        print("\n  Le Switch ", sw_number ," existe déjà. \n  Le fichier de configuration existant sera écrasé.")
+        exist = "oui"
+        os.system("sleep 1")
+
+    # ecrire le fichier dans "config"
+    sw_generate_conf = open(sw_file_config, "w")
+    for li in range(len(config)):
+        sw_generate_conf.write(config[li])
+        #config[ligne]
+    sw_generate_conf.close()
+    print("\n Fichier config du switch ", sw_number, " créé.\n")
+    os.system("sleep 1")
+
+    #ajouter le device à la liste de devices existant pour le backup
+    if exist=="non":
+        write_list_device(sw_number, ip_sw)
+        print("\nAjout de ",sw_number," à la liste des devices existants.\n")
+        os.system("sleep 3")
+    else:
+        print("Device existant, donc pas ajouter dans la liste de backup.\n\n")
+        os.system("sleep 3")
 
 # Création des config des switchs
 def conf_sw ():
     # définition des listes
-    config=[]
-    valeur_site=[]
+    #valeur_site=[]
 
     os.system("clear")
     print ("\n CONFIGURATION SWITCHS \n")
@@ -238,77 +373,10 @@ def conf_sw ():
         while num_sw < 1 or num_sw > 20:
             numero_sw = input(" Saisir le numéro du switch de niveau 2 (entre 1 et 20): ")
             num_sw = int(numero_sw)
+            conf_sw_level2(site,numero_sw)
     else:
         numero_sw="1"
         print(" Le switch de niveau 1 va etre généré.\n")
+        conf_sw_level1(site)
 
-    #création du numero de switch ex: sws001101
-    numero_sw = numero_sw.rjust(2,'0')
-    sw_number = "sw"+site+niveau_sw+numero_sw
-    sw_file_config = dir_ftp+dir_config+sw_number
-    
-    try:   # en 2 test si le fichier de config du switch existe déjà
-        open(sw_file_config, 'r')
-    except FileNotFoundError:
-        print ("\n  Le Switch n'existe pas encore.\n", sw_number ,"va être générer.\n")
-        exist = "non"
-        os.system("sleep 1")
-    else:
-        print("\n  Le Switch ", sw_number ," existe déjà. \n  Le fichier de configuration existant sera écrasé.")
-        exist = "oui"
-        os.system("sleep 1")
-
-    # définition du template du switch niveau1
-    temp_sw1 = dir_ftp+dir_template+"switch_1.txt"
-    temp_switch_config = open(temp_sw1, "r")
-    for ligne in temp_switch_config:
-        config.append(ligne)  # notre template de config est dans une liste
-    temp_switch_config.close()
-
-    # récupération des valeurs du sites
-    valeur_site = read_site(site)
-
-    # générer fichier de config
-
-    # récupération valeur de VLAN99
-    valeur_vlan99 = valeur_site[2]
-    #adresse ip du switch dans le VLAN99 suivant niveau et numéro de switch
-    ip_lan_vlan99 = valeur_vlan99[2]  # retour ok adresse ip du lan
-
-    ip_sw_vlan99=ip_lan_vlan99.split(".") # découpage de l'adresse IP dans une liste
-    if niv_sw == 1:
-        ip_sw_vlan99[3]="1"
-    else:
-        ip_sw_vlan99[3]=num_sw+1
-        ip_sw_vlan99[3]=str(ip_sw_vlan99[3])
-    
-    #reconstitution adresse IP du switch
-    ip_sw = ip_sw_vlan99[0]+"."+ip_sw_vlan99[1]+"."+ip_sw_vlan99[2]+"."+ip_sw_vlan99[3]
-
-    # modification des variables $ du template
-    # hostane en ligne 2
-    config[1]="hostane "+sw_number+"\n"
-    # config IP dans vlan99 management
-    config[53]="ip default-gateway "+valeur_vlan99[4]+"\n"
-    config[54]="ip route 0.0.0.0 0.0.0.0 "+valeur_vlan99[4]+"\n"
-    config[56]="ip address "+ip_sw+" "+valeur_vlan99[3]+"\n"
-    # config bannière
-    config[90]="  Connection sur "+sw_number.upper()+"\n"
-
-    # ecrire le fichier dans "config"
-    sw_generate_conf = open(sw_file_config, "w")
-    for li in range(len(config)):
-        sw_generate_conf.write(config[li])
-        #config[ligne]
-    sw_generate_conf.close()
-    print("\n Fichier config du switch ", sw_number, " créé.\n")
-    os.system("sleep 1")
-    #ajouter le device à la liste de devices existant pour le backup
-    if exist=="non":
-        write_list_device(sw_number, ip_sw)
-        print("\nAjout de ",sw_number," à la liste des devices existants.\n")
-        os.system("sleep 3")
-    else:
-        print("Device existant, donc pas ajouter dans la liste de backup.\n\n")
-        os.system("sleep 3")
 
