@@ -198,7 +198,6 @@ def conf_sw_level1(site):
 
     #definition nom du switch
     #création du numero de switch ex: sws001101
-    #numero_sw = numero_sw.rjust(2,'0')
     sw_number = "sw"+site+"101"
     sw_file_config = dir_ftp+dir_config+sw_number
 
@@ -226,7 +225,7 @@ def conf_sw_level1(site):
 
     # modification des variables $ du template
     # hostane en ligne 2
-    config[1]="hostane "+sw_number+"\n"
+    config[1]="hostame "+sw_number+"\n"
     # config IP dans vlan99 management
     config[53]="ip default-gateway "+valeur_vlan99[4]+"\n"
     config[54]="ip route 0.0.0.0 0.0.0.0 "+valeur_vlan99[4]+"\n"
@@ -267,7 +266,7 @@ def conf_sw_level2(site,numero_sw):
     # définition liste, variable
     config=[]
     num_sw = int(numero_sw)
-    sw_number = "sw"+site+"2"+numero_sw
+    sw_number = "sw"+site+"2"+numero_sw.rjust(2,'0')
     sw_file_config = dir_ftp+dir_config+sw_number
 
     # définition du template du switch niveau1
@@ -295,7 +294,7 @@ def conf_sw_level2(site,numero_sw):
 
     # modification des variables $ du template
     # hostane en ligne 2
-    config[1]="hostane "+sw_number+"\n"
+    config[1]="hostame "+sw_number+"\n"
     # config IP dans vlan99 management
     config[53]="ip default-gateway "+valeur_vlan99[4]+"\n"
     config[54]="ip route 0.0.0.0 0.0.0.0 "+valeur_vlan99[4]+"\n"
