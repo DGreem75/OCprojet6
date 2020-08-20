@@ -18,7 +18,7 @@ ainsi que modifier la partie "configuration" pour changer les variables des môd
 
 Ce qu'il est requis pour commencer avec votre projet...
 
-- Pour Windows 10: installation de la focntion avancé "Client Open-SSH", et un programme "serveur FTP".
+- Pour Windows 10: installation de la focntion avancé "serveur FTP" ou un programme "serveur FTP
 - Pour Linux : un serveur FTP
 - Python 3
 - Créer un utilisateur commun entre le serveur FTP et l'utilisateur des routeurs et switchs
@@ -26,18 +26,38 @@ Ce qu'il est requis pour commencer avec votre projet...
 
 ### Installation
 
-Les étapes pour installer votre programme....
+Les étapes pour utiliser les scripts:
 
-Dites ce qu'il faut faire...
+_ Récupérer les scripts sur votre PC / Serveur.
 
-_exemple_: Executez la commande ``telnet mapscii.me`` pour commencer ensuite [...]
+_ Modifier les variables globales pour les chemins des diférents dossiers (serveur FTP, fichiers configurations, backup ...)
 
+exemple dans le fichier config.py et script_save.py :
 
-Ensuite vous pouvez montrer ce que vous obtenez au final...
+# variable globale
+
+ip_serv_ftp = "10.1.2.100" # adresse ip du serveur FTP
+
+dir_ftp = "/home/share/"   # répertoire de base du serveur FTP
+
+dir_site = "site/"         # répertoire pour les fichiers sites
+
+dir_config ="config/"      # répertoire pour les fichiers des config
+
+dir_sav ="sav/"            # répertoire pour les fichiers de backup
+
+dir_template = "template/" # répertoire pour les templates de config
+
+file_device = "list_device.csv"  # fichier qui liste les device existants
+
 
 ## Démarrage
 
-Dites comment faire pour lancer votre projet
+Il faut simplement, depuis l'invite de commande exécuter le script "generate_config.py"
+
+exemple Linux:
+
+$ python3 generate_config.py
 
 ## Fabriqué avec
 
