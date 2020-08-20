@@ -93,18 +93,15 @@ interface vlan1
  shutdown
 !
 interface vlan2
-name vlan2
-state active
-no shutdown
+ description VLAN2-vlan2
+ no shutdown
 !
 interface vlan3
-name vlan3
-state active
-no shutdown
+ description VLAN3-vlan3
+ no shutdown
 !
 interface vlan9
- name management
- state active
+ description Management
  no shutdown
  ip address 10.x.x.x 255.255.x.0
 !
