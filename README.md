@@ -34,7 +34,7 @@ _ Modifier les variables globales pour les chemins des diférents dossiers (serv
 
 _exemple pour le fichier config.py et script_save.py :_
 
-** \# variable globale **
+**\# variable globale**
 
 ip_serv_ftp = "10.1.2.100" # adresse ip du serveur FTP
 
