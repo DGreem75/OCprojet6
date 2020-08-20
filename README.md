@@ -48,7 +48,7 @@ _exemple pour le fichier config.py et script_save.py :_
 
 Il faut simplement, depuis l'invite de commande exécuter le script "generate_config.py"
 
-exemple Linux:
+_exemple Linux:_
 
 $ python3 generate_config.py
 
