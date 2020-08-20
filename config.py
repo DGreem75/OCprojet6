@@ -171,22 +171,24 @@ def conf_ro ():
     valeur_ip_wan = valeur_site[3]
 
     # modification des variables du template
-    # hostname en ligne 2
-    config[1]="hostname "+ro_number+"\n"
-    # ip de la gw du vlan2 en ligne 7
-    config[6]="ip add "+valeur_vlan2[4]+" "+valeur_vlan2[3]+"\n"
-    # ip de la gw du vlan3 en ligne 11
-    config[10]="ip add "+valeur_vlan3[4]+" "+valeur_vlan3[3]+"\n"
-    # ip de la gw du vlan99 en ligne 15
-    config[14]="ip add "+valeur_vlan99[4]+" "+valeur_vlan99[3]+"\n"
-    # ip dhcp et gw du vlan2 en ligne 19-20
-    config[18]="network "+valeur_vlan2[2]+"\n"
-    config[19]="default-router "+valeur_vlan2[4]+"\n"
-    # ip dhcp et gw du vlan3 en ligne 24-25
-    config[24]="network "+valeur_vlan3[2]+"\n"
-    config[25]="default-router "+valeur_vlan3[4]+"\n"
-    config[29]="ip address "+valeur_ip_wan[2]+" "+valeur_ip_wan[3]+"\n"
-    config[38]="  Connection sur "+ro_number.upper()+"\n"
+    # hostname
+    config[3]="hostname "+ro_number+"\n"
+    # ip de la gw du vlan2
+    config[21]="ip address "+valeur_vlan2[4]+" "+valeur_vlan2[3]+"\n"
+    # ip de la gw du vlan3
+    config[26]="ip address "+valeur_vlan3[4]+" "+valeur_vlan3[3]+"\n"
+    # ip de la gw du vlan99
+    config[31]="ip address "+valeur_vlan99[4]+" "+valeur_vlan99[3]+"\n"
+    # ip wan du routeur
+    config[35]="ip address "+valeur_ip_wan[2]+" "+valeur_ip_wan[3]+"\n"
+    # ip dhcp et gw du vlan2
+    config[41]=" network "+valeur_vlan2[2]+" "+valeur_vlan2[3]+"\n"
+    config[42]=" default-router "+valeur_vlan2[4]+"\n"
+    # ip dhcp et gw du vlan3
+    config[46]=" network "+valeur_vlan3[2]+" "+valeur_vlan3[3]+"\n"
+    config[47]=" default-router "+valeur_vlan3[4]+"\n"
+    # banniere
+    config[57]="  Connection sur "+ro_number.upper()+"\n"
     #print(config)
     
     # ecrire le fichier dans "config"
@@ -231,11 +233,11 @@ def conf_sw_level1(site):
 
     # modification des variables $ du template
     # hostname en ligne 2
-    config[1]="hostname "+sw_number+"\n"
+    config[3]="hostname "+sw_number+"\n"
     # config IP dans vlan99 management
-    config[53]="ip default-gateway "+valeur_vlan99[4]+"\n"
-    config[54]="ip route 0.0.0.0 0.0.0.0 "+valeur_vlan99[4]+"\n"
-    config[56]="ip address "+ip_sw+" "+valeur_vlan99[3]+"\n"
+    config[117]="ip address "+ip_sw+" "+valeur_vlan99[3]+"\n"
+    config[119]="ip default-gateway "+valeur_vlan99[4]+"\n"
+    config[120]="ip route 0.0.0.0 0.0.0.0 "+valeur_vlan99[4]+"\n"
     # config bannière
     config[90]="  Connection sur "+sw_number.upper()+"\n"
 

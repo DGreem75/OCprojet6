@@ -1,52 +1,69 @@
-conf t
-hostname $hostname
-int gi0/0
-no shutdown
-int gi0/0.2
+version 15.0
+service password-encryption
+!
+hostname xwxxxxx
+!
+boot-start-marker
+boot-end-marker
+!
+username field privilege 15 password Azerty@39
+!
+ip domain-name local.fr
+!
+!
+int GigabitEthernet 0/0
+ no ip address
+ duplex auto
+ speed auto
+!
+int GigabitEthernet 0/0.2
+description ** Vlan2 Shop network **
 encap dot1Q 2
-ip add $ip_vlan2_gw 255.255.255.0
-exit
-int gi0/0.3
-encap dot1Q 3
-ip add $ip_vlan3_gw 255.255.255.0
-exit
-int gi0/0.99
-encap dot1Q 99
-ip add $ip_vlan99_gw 255.255.255.224
-exit
-service dhcp
+ip address 10.x.x.x 255.255.255.0
+!
+int GigabitEthernet 0/0.3
+description ** Vlan3 Shop other **
+encap dot1Q 2
+ip address 10.x.x.x 255.255.255.0
+!
+int GigabitEthernet 0/0.99
+description ** Vlan99 Management **
+encap dot1Q 2
+ip address 10.x.x.x 255.255.255.0
+!
+int GigabitEthernet 0/1
+ description ** WAN **
+ ip address ip-wan 255.255.255.0
+ no shutdown
+ ip nat outside
+!
+!
 ip dhcp pool VLAN2
-network $ip_vlan2 255.255.255.0
-default-router $ip_vlan2_gw
-dns-server 8.8.8.8
-exit
-service dhcp
+ network ip_vlan2 255.255.255.0
+ default-router ip_vlan2_gw
+ dns-server 8.8.8.8
+!
 ip dhcp pool VLAN3
-network $ip_vlan3 255.255.255.0
-default-router $ip_vlan3_gw
-end
-conf t
-int gi0/1
-ip address $ip-wan 255.255.255.0
-no shutdown
-ip nat outside
-end
-conf t
-banner exec^C^C
-banner incomming ^C^C
+ network ip_vlan3 255.255.255.0
+ default-router ip_vlan3_gw
+!
+ip route 0.0.0.0 0.0.0.0 192.168.122.10
+no ip http server
+no ip http secure-server
+!
+no banner exec
+no banner incomming
 banner login ^C
 #############################
-  Connection sur
+  Connection sur ROxxxx
 #############################
 ^C
-ip route 0.0.0.0 0.0.0.0 192.168.122.10
-ip domain-name local.fr
+!
 crypto key generate rsa modulus 1024
+!
+!
 ip ssh version 2
 line vty 0 4
-transport input ssh
-login local
-username field privilege 15 password Azerty@39
-service password-encryption
-enable secret Azerty@39
+ transport input ssh
+!
 end

@@ -12,6 +12,7 @@ dir_ftp = "/home/share/"   # répertoire de base du serveur FTP
 dir_site = "site/"         # répertoire pour les fichiers sites
 dir_config ="config/"      # répertoire pour les fichiers des config
 dir_sav ="sav/"            # répertoire pour les fichiers de backup
+dir_log ="log/"            # répertoire pour les fichiers de log
 dir_template = "template/" # répertoire pour les templates de config
 file_device = "list_device.csv"  # fichier qui liste les device existants
 
