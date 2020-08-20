@@ -35,20 +35,13 @@ _ Modifier les variables globales pour les chemins des diférents dossiers (serv
 _exemple pour le fichier config.py et script_save.py :_
 
 **\# variable globale**
-
-ip_serv_ftp = "10.1.2.100" # adresse ip du serveur FTP
-
-dir_ftp = "/home/share/"   # répertoire de base du serveur FTP
-
-dir_site = "site/"         # répertoire pour les fichiers sites
-
-dir_config ="config/"      # répertoire pour les fichiers des config
-
-dir_sav ="sav/"            # répertoire pour les fichiers de backup
-
-dir_template = "template/" # répertoire pour les templates de config
-
-file_device = "list_device.csv"  # fichier qui liste les device existants
+* ip_serv_ftp = "10.1.2.100" # adresse ip du serveur FTP
+* dir_ftp = "/home/share/"   # répertoire de base du serveur FTP
+* dir_site = "site/"         # répertoire pour les fichiers sites
+* dir_config ="config/"      # répertoire pour les fichiers des config
+* dir_sav ="sav/"            # répertoire pour les fichiers de backup
+* dir_template = "template/" # répertoire pour les templates de config
+* file_device = "list_device.csv"  # fichier qui liste les device existants
 
 
 ## Démarrage
