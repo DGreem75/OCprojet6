@@ -288,13 +288,13 @@ def conf_sw_level2(site,numero_sw):
 
     # modification des variables $ du template
     # hostname en ligne 2
-    config[1]="hostname "+sw_number+"\n"
+    config[3]="hostname "+sw_number+"\n"
     # config IP dans vlan99 management
-    config[87]="ip default-gateway "+valeur_vlan99[4]+"\n"
-    config[88]="ip route 0.0.0.0 0.0.0.0 "+valeur_vlan99[4]+"\n"
-    config[90]="ip address "+ip_sw+" "+valeur_vlan99[3]+"\n"
-    # config bannière
-    config[99]="  Connection sur "+sw_number.upper()+"\n"
+    config[108=" ip address "+ip_sw+" "+valeur_vlan99[3]+"\n"
+    config[110]="ip default-gateway "+valeur_vlan99[4]+"\n"
+    config[111]="ip route 0.0.0.0 0.0.0.0 "+valeur_vlan99[4]+"\n"
+        # config bannière
+    config[120]="  Connection sur "+sw_number.upper()+"\n"
 
     try:   # test si le fichier de config du switch existe déjà
         open(sw_file_config, 'r')
