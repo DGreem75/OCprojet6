@@ -174,21 +174,21 @@ def conf_ro ():
     # hostname
     config[3]="hostname "+ro_number+"\n"
     # ip de la gw du vlan2
-    config[21]="ip address "+valeur_vlan2[4]+" "+valeur_vlan2[3]+"\n"
+    config[23]="ip address "+valeur_vlan2[4]+" "+valeur_vlan2[3]+"\n"
     # ip de la gw du vlan3
-    config[26]="ip address "+valeur_vlan3[4]+" "+valeur_vlan3[3]+"\n"
+    config[28]="ip address "+valeur_vlan3[4]+" "+valeur_vlan3[3]+"\n"
     # ip de la gw du vlan99
-    config[31]="ip address "+valeur_vlan99[4]+" "+valeur_vlan99[3]+"\n"
+    config[33]="ip address "+valeur_vlan99[4]+" "+valeur_vlan99[3]+"\n"
     # ip wan du routeur
-    config[35]="ip address "+valeur_ip_wan[2]+" "+valeur_ip_wan[3]+"\n"
+    config[37]="ip address "+valeur_ip_wan[2]+" "+valeur_ip_wan[3]+"\n"
     # ip dhcp et gw du vlan2
-    config[41]=" network "+valeur_vlan2[2]+" "+valeur_vlan2[3]+"\n"
-    config[42]=" default-router "+valeur_vlan2[4]+"\n"
+    config[43]=" network "+valeur_vlan2[2]+" "+valeur_vlan2[3]+"\n"
+    config[44]=" default-router "+valeur_vlan2[4]+"\n"
     # ip dhcp et gw du vlan3
-    config[46]=" network "+valeur_vlan3[2]+" "+valeur_vlan3[3]+"\n"
-    config[47]=" default-router "+valeur_vlan3[4]+"\n"
+    config[48]=" network "+valeur_vlan3[2]+" "+valeur_vlan3[3]+"\n"
+    config[49]=" default-router "+valeur_vlan3[4]+"\n"
     # banniere
-    config[57]="  Connection sur "+ro_number.upper()+"\n"
+    config[59]="  Connection sur "+ro_number.upper()+"\n"
     #print(config)
     
     # ecrire le fichier dans "config"
@@ -235,11 +235,11 @@ def conf_sw_level1(site):
     # hostname en ligne 2
     config[3]="hostname "+sw_number+"\n"
     # config IP dans vlan99 management
-    config[117]="ip address "+ip_sw+" "+valeur_vlan99[3]+"\n"
-    config[119]="ip default-gateway "+valeur_vlan99[4]+"\n"
-    config[120]="ip route 0.0.0.0 0.0.0.0 "+valeur_vlan99[4]+"\n"
+    config[119]="ip address "+ip_sw+" "+valeur_vlan99[3]+"\n"
+    config[121]="ip default-gateway "+valeur_vlan99[4]+"\n"
+    config[122]="ip route 0.0.0.0 0.0.0.0 "+valeur_vlan99[4]+"\n"
     # config bannière
-    config[90]="  Connection sur "+sw_number.upper()+"\n"
+    config[131]="  Connection sur "+sw_number.upper()+"\n"
 
     try:   # test si le fichier de config du switch existe déjà
         open(sw_file_config, 'r')
@@ -292,11 +292,11 @@ def conf_sw_level2(site,numero_sw):
     # hostname en ligne 2
     config[3]="hostname "+sw_number+"\n"
     # config IP dans vlan99 management
-    config[105]=" ip address "+ip_sw+" "+valeur_vlan99[3]+"\n"
-    config[107]="ip default-gateway "+valeur_vlan99[4]+"\n"
-    config[108]="ip route 0.0.0.0 0.0.0.0 "+valeur_vlan99[4]+"\n"
+    config[107]=" ip address "+ip_sw+" "+valeur_vlan99[3]+"\n"
+    config[109]="ip default-gateway "+valeur_vlan99[4]+"\n"
+    config[110]="ip route 0.0.0.0 0.0.0.0 "+valeur_vlan99[4]+"\n"
         # config bannière
-    config[117]="  Connection sur "+sw_number.upper()+"\n"
+    config[119]="  Connection sur "+sw_number.upper()+"\n"
 
     try:   # test si le fichier de config du switch existe déjà
         open(sw_file_config, 'r')

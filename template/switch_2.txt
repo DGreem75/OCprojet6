@@ -6,6 +6,8 @@ hostname xwxxxxx
 boot-start-marker
 boot-end-marker
 !
+enable secret Azerty@39
+!
 username field privilege 15 password Azerty@39
 !
 ip domain-name local.fr
