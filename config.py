@@ -231,7 +231,7 @@ def conf_sw_level1(site):
 
     # modification des variables $ du template
     # hostname en ligne 2
-    config[1]="hostame "+sw_number+"\n"
+    config[1]="hostname "+sw_number+"\n"
     # config IP dans vlan99 management
     config[53]="ip default-gateway "+valeur_vlan99[4]+"\n"
     config[54]="ip route 0.0.0.0 0.0.0.0 "+valeur_vlan99[4]+"\n"
@@ -288,7 +288,7 @@ def conf_sw_level2(site,numero_sw):
 
     # modification des variables $ du template
     # hostname en ligne 2
-    config[1]="hostame "+sw_number+"\n"
+    config[1]="hostname "+sw_number+"\n"
     # config IP dans vlan99 management
     config[87]="ip default-gateway "+valeur_vlan99[4]+"\n"
     config[88]="ip route 0.0.0.0 0.0.0.0 "+valeur_vlan99[4]+"\n"
