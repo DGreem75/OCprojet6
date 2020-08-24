@@ -3,18 +3,7 @@
 # import des modules
 import os
 
-<<<<<<< HEAD
 #définition de listes pour la configuration
-=======
-# variable globale
-ip_serv_ftp = "10.1.2.100" # adresse ip du serveur FTP
-dir_ftp = "/home/share/"   # répertoire de base du serveur FTP
-dir_site = "site/"         # répertoire pour les fichiers sites
-dir_config ="config/"      # répertoire pour les fichiers des config
-dir_sav ="sav/"            # répertoire pour les fichiers de backup
-dir_template = "template/" # répertoire pour les templates de config
-file_device = "list_device.csv"  # fichier qui liste les device existants
->>>>>>> linuxversion
 
 # Création des site
 def conf_site ():
@@ -67,7 +56,6 @@ def conf_site ():
         for ligne in fichier:
             print (ligne)
     print ("\n Site créé.\n")
-<<<<<<< HEAD
     os.system("timeout 3")
 
 # Ecrire le fichier "liste des devices existants"
@@ -79,48 +67,6 @@ def write_list_device (device_name, device_ip):
     file.write(device_ip)
     file.write("\n")
     file.close()
-=======
-    os.system("sleep 3")
-
-# Ecrire le fichier "liste des devices existants"
-def write_list_device (exist,device_name, device_ip):
-    if exist=="non":
-        f_device=dir_ftp+file_device
-        file = open(f_device, 'a')
-        file.write(device_name)
-        file.write(";")
-        file.write(device_ip)
-        file.write("\n")
-        file.close()
-        print("\nAjout de ",device_name," à la liste des devices existants.\n")
-        os.system("sleep 3")
-    else:
-        print("Device existant, donc pas ajouter dans la liste de backup.\n\n")
-        os.system("sleep 3")
-
-# Lire et écrire la configuration d'un site dans une liste
-def read_site(site):
-    valeur_site=[]
-    file_site = dir_ftp+dir_site+site+ ".csv"
-    temp_file_site = open(file_site, "r")
-    for ligne in temp_file_site:
-        s = ligne.strip("\n")
-        l = s.split(";")
-        valeur_site.append(l)  # les valeurs de notre site sont dans une liste de liste
-    temp_file_site.close()
-    return valeur_site
-
-# Ecrire le fichier de configugration d'un device
-def write_config(config,file,device):
-    # ecrire le fichier dans "config"
-    file_generate_conf = open(file, "w")
-    for li in range(len(config)):
-        file_generate_conf.write(config[li])
-    file_generate_conf.close()
-    print("\n Fichier config du ", device ," créé.\n")
-    os.system("sleep 1")
-
->>>>>>> linuxversion
 
 # Création des routeurs
 def conf_ro ():
@@ -128,14 +74,9 @@ def conf_ro ():
     config=[]
     valeur_site=[]
 
-<<<<<<< HEAD
     os.system("cls")
     print (" \n CONFIGURATION ROUTEURS \n")
     #site_number = input( "Dans quel site vous voulez-créer le routeur ? saisir le n° du site: ")
-=======
-    os.system("clear")
-    print (" \n CONFIGURATION ROUTEURS \n")
->>>>>>> linuxversion
     site_num = 0
     while site_num <= 1 and site_num <= 255:
         site_number = input( "Dans quel site vous voulez-créer le routeur ?\n Veuillez saisir un numéro de site entre 2 et 255.\n Saisir le n° du site: ")
@@ -150,11 +91,7 @@ def conf_ro ():
             print("\n Le fichier de config va être généré.\n")
     
     site = "s"+ site_number.rjust(3, '0')  # permet d'écrire le numéro du site sur 3 chiffre ex: 1 => 001
-<<<<<<< HEAD
     file_site = "site/"+ site + ".csv"
-=======
-    file_site = dir_ftp+dir_site+site+ ".csv"
->>>>>>> linuxversion
     ro_number = "ro"+site+"01"
     ro_file_config = dir_ftp+dir_config+ro_number
 
@@ -162,26 +99,17 @@ def conf_ro ():
         open(file_site, "r")
     except FileNotFoundError:
         print ("\n  Le site n'existe pas encore.\n  Vous devez créer le site avant, merci. \n  Vous allez être redirigé vers le Menu Principal \n")
-<<<<<<< HEAD
         os.system("timeout 1")
         return "site inexistant"
     else:
         print ("\n  Le site existe ! ")
         os.system("timeout 1")
-=======
-        os.system("sleep 1")
-        return "site inexistant"
-    else:
-        print ("\n  Le site existe ! ")
-        os.system("sleep 1")
->>>>>>> linuxversion
 
     try:   # en 2 test si le fichier de config du routeur existe déjà
         open(ro_file_config, "r")
     except FileNotFoundError:
         print ("\n  Le Routeur n'existe pas encore.\n")
         exist="non"
-<<<<<<< HEAD
         os.system("timeout 1")
     else:
         print("\n  Le Router ", ro_number, " existe déjà. \n  Le fichier de configuration existant sera écrasé. ")
@@ -189,21 +117,10 @@ def conf_ro ():
         os.system("timeout 1")
 
     temp_router_config = open("template/router.txt", "r")
-=======
-        os.system("sleep 1")
-    else:
-        print("\n  Le Router ", ro_number, " existe déjà. \n  Le fichier de configuration existant sera écrasé. ")
-        exist="oui" # permet de savoir si il faut ajouter le device à la liste de device existant
-        os.system("sleep 1")
-
-    temp_ro = dir_ftp+dir_template+"router.txt"
-    temp_router_config = open(temp_ro, "r")
->>>>>>> linuxversion
     for ligne in temp_router_config:
         config.append(ligne)  # notre template de config est dans une liste
     temp_router_config.close()
 
-<<<<<<< HEAD
     temp_file_site = open(file_site, "r")
     for ligne in temp_file_site:
         s = ligne.strip("\n")
@@ -211,12 +128,6 @@ def conf_ro ():
         valeur_site.append(l)  # les valeurs de notre site sont dans une liste de liste
     temp_file_site.close()
     
-=======
-    # récupération des valeurs du sites
-    valeur_site = read_site(site)
-    
-    # Récupération des valerus nécessaires à la modification du template
->>>>>>> linuxversion
     # récupération valeur de VLAN2
     valeur_vlan2 = valeur_site[0]
     # récupération valeur de VLAN3
@@ -226,7 +137,6 @@ def conf_ro ():
     # récupération IP WAN du routeur
     valeur_ip_wan = valeur_site[3]
 
-<<<<<<< HEAD
     # modification des variables $ du template
     # hostane en ligne 2
     config[1]="hostane "+ro_number+"\n"
@@ -260,34 +170,6 @@ def conf_ro ():
     else:
         print("Device existant, donc pas ajouter dans la liste de backup.\n\n")
         os.system("timeout 3")
-=======
-    # modification des variables du template
-    # hostname
-    config[3]="hostname "+ro_number+"\n"
-    # ip de la gw du vlan2
-    config[23]="ip address "+valeur_vlan2[4]+" "+valeur_vlan2[3]+"\n"
-    # ip de la gw du vlan3
-    config[28]="ip address "+valeur_vlan3[4]+" "+valeur_vlan3[3]+"\n"
-    # ip de la gw du vlan99
-    config[33]="ip address "+valeur_vlan99[4]+" "+valeur_vlan99[3]+"\n"
-    # ip wan du routeur
-    config[37]="ip address "+valeur_ip_wan[2]+" "+valeur_ip_wan[3]+"\n"
-    # ip dhcp et gw du vlan2
-    config[43]=" network "+valeur_vlan2[2]+" "+valeur_vlan2[3]+"\n"
-    config[44]=" default-router "+valeur_vlan2[4]+"\n"
-    # ip dhcp et gw du vlan3
-    config[48]=" network "+valeur_vlan3[2]+" "+valeur_vlan3[3]+"\n"
-    config[49]=" default-router "+valeur_vlan3[4]+"\n"
-    # banniere
-    config[59]="  Connection sur "+ro_number.upper()+"\n"
-    #print(config)
-    
-    # ecrire le fichier dans "config"
-    write_config(config,ro_file_config,ro_number)
-    
-    #ajouter le device à la liste de devices existant pour le backup
-    write_list_device(exist,ro_number, valeur_vlan99[4])
->>>>>>> linuxversion
 
 # Création des switchs
 
@@ -410,15 +292,10 @@ def conf_sw_level2(site,numero_sw):
 # Création des config des switchs
 def conf_sw ():
     # définition des listes
-<<<<<<< HEAD
     config=[]
     valeur_site=[]
 
     os.system("cls")
-=======
-
-    os.system("clear")
->>>>>>> linuxversion
     print ("\n CONFIGURATION SWITCHS \n")
     site_num = 0
     while site_num < 1 and site_num <= 255:
@@ -430,29 +307,17 @@ def conf_sw ():
             print("\n Le fichier de config va être généré.\n")
     
     site = "s"+ site_number.rjust(3, '0')  # permet d'écrire le numéro du site sur 3 chiffre ex: 1 => 001
-<<<<<<< HEAD
     file_site = "site/"+ site + ".csv"
-=======
-    file_site = dir_ftp+dir_site+site+ ".csv"
->>>>>>> linuxversion
 
     try:   # en 1er test si le site existe
         open(file_site, "r")
     except FileNotFoundError:
         print ("\n  Le site n'existe pas encore.\n  Vous devez créer le site avant, merci. \n  Vous allez être redirigé vers le Menu Principal \n")
-<<<<<<< HEAD
         os.system("timeout 1")
         return "site inexistant"
     else:
         print ("\n  Le site existe ! ")
         os.system("timeout 1")
-=======
-        os.system("sleep 1")
-        return "site inexistant"
-    else:
-        print ("\n  Le site existe ! ")
-        os.system("sleep 1")
->>>>>>> linuxversion
     
     # quel niveau de switch doit être créé
     niv_sw = 0
