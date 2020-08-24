@@ -7,6 +7,7 @@ _(OC PROJET6 Participez à la communauté)_
 
 Permet de créer la configuration de routeurs et de switchs Cisco pour la gestion de plusieurs sites.
 La configuration des routeurs sera la même pour tous les sites, et il y a 2 niveau de switchs.
+
 Le backup est manuel, mais peut être automatisé.
 
 ## Pour commencer
@@ -20,10 +21,14 @@ Identique à "master"
 ### Installation
 
 Identique à "master"
+
 Sauf chemin du serveur FTP.
+
 Donc:
 **\# variable globale**
-* dir_ftp = "/home/share/"   # répertoire de base du serveur FTP
+
+* dir_ftp = "c:/temp/FTPWIN/"   # répertoire de base du serveur FTP
+
 
 ## Démarrage
 
