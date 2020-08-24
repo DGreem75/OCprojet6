@@ -23,7 +23,7 @@ Ce qu'il est requis pour commencer avec votre projet...
 - Python 3
 - Créer un utilisateur commun entre le serveur FTP et l'utilisateur des routeurs et switchs
 - Installation de PIP pour Python. [Linux](https://linuxize.com/post/how-to-install-pip-on-ubuntu-18.04/) ou [Windows](https://docs.aws.amazon.com/fr_fr/elasticbeanstalk/latest/dg/eb-cli3-install-windows.html)
-- Installation de la librairie ["NETMIKO"](https://reseau.network/automatisation_netmiko/)
+- Installation de la librairie [NETMIKO](https://reseau.network/automatisation_netmiko/)
 
 ### Installation
 
@@ -55,9 +55,9 @@ $ python3 generate_config.py
 
 ## Lab test
 
-Créé sous [GNS3]()https://www.gns3.com/
+Créé sous [GNS3](https://www.gns3.com/).
 
-![LabGns3](https://github.com/DGreem75/OCprojet6/tree/master/do-not-remove/lab-site.jpg "lab GNS3")
+![LabGns3](do-not-remove/lab-site.jpg "lab GNS3")
 
 ## Fabriqué avec
 
@@ -66,14 +66,13 @@ Editeur "VI".
 
 Pour Windows:
 [Visual Studio](https://visualstudio.microsoft.com/fr/).
-https://visualstudio.microsoft.com/fr/
 
 ## Versions
 
 Suivant les "branches":
 
-Master : pour la version Linux (testé sur Ubuntu 20.04)
+Master : pour la version Linux (testé sur [Ubuntu 20.04](https://ubuntu-fr.org/))
 
 LinuxVersion : pour test Linux
 
-Windowstest : pour la version Windows (testé sous Windows10)
+Windowstest : pour la version Windows (testé sous [Windows 10](https://www.microsoft.com/fr-fr/windows/))
