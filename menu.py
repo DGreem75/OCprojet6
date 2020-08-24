@@ -4,7 +4,10 @@ def menu_principal ():
     print (" ########################################################### ")
     print (" #                                                         # ")
     print (" #            BIENVENU PROJET 6 OpenClassRooms             # ")
+<<<<<<< HEAD
     print (" #                     David Lescoffit                     # ")
+=======
+>>>>>>> linuxversion
     print (" #                                                         # ")
     print (" #                                                         # ")
     print (" #               @   @     @@@@  @    @  @   @             # ")

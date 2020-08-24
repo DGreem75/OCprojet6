@@ -8,13 +8,13 @@ from config import *
 import subprocess
 
 # Se placer dans notre dossier de travail
-os.chdir("D:/script cours/OCprojet6")
+os.chdir("/home/david/OCprojet6")
 
 
 # Ouvrir le menu principale
 choix = "a"
 while choix != "Q":
-    os.system("cls")
+    os.system("clear")
     menu_principal()
     choix = input ("Que voulez-vous faire : ")
     if choix == "1":   # Créer un site
@@ -24,8 +24,16 @@ while choix != "Q":
     elif choix =="3":  # Créer un switch
         conf_sw()
     elif choix =="4":  # Lancer le backup
+<<<<<<< HEAD
         os.system("py script_save.py")
+=======
+        os.system("python3 script_save.py")
+>>>>>>> linuxversion
     elif choix == "Q":
         print ("\n\n    -- MERCI A BIENTOT -- \n\n\n")        
     else:
         print ("\n\n -- Mauvais choix ;-) -- \n\n")
+<<<<<<< HEAD
+=======
+
+>>>>>>> linuxversion
