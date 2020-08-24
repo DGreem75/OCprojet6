@@ -45,6 +45,12 @@ _exemple pour le fichier config.py et script_save.py :_
 * file_device = "list_device.csv"  # fichier qui liste les device existants
 
 
+## Lab test
+
+Créé sous [GNS3](https://www.gns3.com/).
+
+![LabGns3](https://raw.githubusercontent.com/DGreem75/OCprojet6/master/do-not-remove/lab-site.jpg "lab GNS3")
+
 ## Démarrage
 
 Il faut simplement, depuis l'invite de commande exécuter le script "generate_config.py"
@@ -53,11 +59,7 @@ _exemple Linux:_
 
 $ python3 generate_config.py
 
-## Lab test
-
-Créé sous [GNS3](https://www.gns3.com/).
-
-![LabGns3](https://raw.githubusercontent.com/DGreem75/OCprojet6/master/do-not-remove/lab-site.jpg "lab GNS3")
+![Menu](https://raw.githubusercontent.com/DGreem75/OCprojet6/master/do-not-remove/menu_p6.jpg "menu")
 
 ## Fabriqué avec
 
