@@ -18,11 +18,12 @@ ainsi que modifier la partie "configuration" pour changer les variables des môd
 
 Ce qu'il est requis pour commencer avec votre projet...
 
-- Pour Windows 10: installation de la focntion avancé "serveur FTP" ou un programme "serveur FTP
+- Pour Windows 10: installation de la focntion avancé "serveur FTP" ou un programme "serveur FTP".
 - Pour Linux : un serveur FTP
 - Python 3
 - Créer un utilisateur commun entre le serveur FTP et l'utilisateur des routeurs et switchs
-- Installation de !["PIP"](https://linuxize.com/post/how-to-install-pip-on-ubuntu-18.04/) pour Python.
+- Installation de PIP pour Python. !["linux"](https://linuxize.com/post/how-to-install-pip-on-ubuntu-18.04/) !["Windows"](https://docs.aws.amazon.com/fr_fr/elasticbeanstalk/latest/dg/eb-cli3-install-windows.html)
+- Installation "librairie" !["NETMIKO"](https://reseau.network/automatisation_netmiko/)
 
 ### Installation
 
@@ -54,21 +55,21 @@ $ python3 generate_config.py
 
 ## Fabriqué avec
 
-Entrez les programmes/logiciels/ressources que vous avez utilisé pour développer votre projet
+Pour Linux:
+Editeur "VI".
 
-_exemples :_
-* [Materialize.css](http://materializecss.com) - Framework CSS (front-end)
-* [Atom](https://atom.io/) - Editeur de textes
+Pour Windows:
+!["Visual Studio"](https://visualstudio.microsoft.com/fr/).
 
 ## Versions
 
 Suivant les "branch":
 
-Master : pour Windows
+Master : pour la version Linux (testé sur Ubuntu 20.04)
 
-LinuxVersion : pour Linux
+LinuxVersion : pour test Linux
 
-Windowstest : version testé dans GNS3
+Windowstest : pour la version Windows (testé sous Windows10)
 
 
 ## Auteurs
