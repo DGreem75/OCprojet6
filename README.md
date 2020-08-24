@@ -22,8 +22,8 @@ Ce qu'il est requis pour commencer avec votre projet...
 - Pour Linux : un serveur FTP
 - Python 3
 - Créer un utilisateur commun entre le serveur FTP et l'utilisateur des routeurs et switchs
-- Installation de PIP pour Python. !["linux"](https://linuxize.com/post/how-to-install-pip-on-ubuntu-18.04/) !["Windows"](https://docs.aws.amazon.com/fr_fr/elasticbeanstalk/latest/dg/eb-cli3-install-windows.html)
-- Installation "librairie" !["NETMIKO"](https://reseau.network/automatisation_netmiko/)
+- Installation de PIP pour Python. ![Linux](https://linuxize.com/post/how-to-install-pip-on-ubuntu-18.04/) ou ![Windows](https://docs.aws.amazon.com/fr_fr/elasticbeanstalk/latest/dg/eb-cli3-install-windows.html)
+- Installation de la librairie ![NETMIKO](https://reseau.network/automatisation_netmiko/)
 
 ### Installation
 
@@ -53,6 +53,12 @@ _exemple Linux:_
 
 $ python3 generate_config.py
 
+## Lab test
+
+Créé sous ![GNS3](https://www.gns3.com/)
+
+![lab](https://github.com/DGreem75/OCprojet6/tree/master/do-not-remove/lab-site.jpg)
+
 ## Fabriqué avec
 
 Pour Linux:
@@ -70,8 +76,3 @@ Master : pour la version Linux (testé sur Ubuntu 20.04)
 LinuxVersion : pour test Linux
 
 Windowstest : pour la version Windows (testé sous Windows10)
-
-
-## Auteurs
-
-_(pour le lien mettez simplement l'URL de votre projet suivi de ``/contirubors``)_
