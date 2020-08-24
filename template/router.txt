@@ -41,7 +41,6 @@ int GigabitEthernet 0/1
 !
 !
 ip dhcp pool VLAN2
-<<<<<<< HEAD
 network $ip_vlan2 255.255.255.0
 default-router $ip_vlan2_gw
 dns-server 8.8.8.8
@@ -75,34 +74,4 @@ login local
 username field privilege 15 password Azerty@39
 service password-encryption
 enable secret Azerty@39
-=======
- network ip_vlan2 255.255.255.0
- default-router ip_vlan2_gw
- dns-server 8.8.8.8
-!
-ip dhcp pool VLAN3
- network ip_vlan3 255.255.255.0
- default-router ip_vlan3_gw
-!
-ip route 0.0.0.0 0.0.0.0 192.168.122.10
-no ip http server
-no ip http secure-server
-!
-no banner exec
-no banner incomming
-banner login ^C
-#############################
-  Connection sur ROxxxx
-#############################
-^C
-!
-crypto key generate rsa modulus 1024
-!
-!
-ip ssh version 2
-line vty 0 4
- login local
- transport input ssh
-!
->>>>>>> linuxversion
 end
