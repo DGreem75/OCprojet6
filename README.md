@@ -57,7 +57,7 @@ $ python3 generate_config.py
 
 Créé sous [GNS3](https://www.gns3.com/).
 
-![LabGns3](do-not-remove/lab-site.jpg "lab GNS3")
+![LabGns3](https://raw.githubusercontent.com/DGreem75/OCprojet6/master/do-not-remove/lab-site.jpg "lab GNS3")
 
 ## Fabriqué avec
 
