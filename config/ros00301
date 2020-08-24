@@ -1,33 +1,33 @@
 conf t
-hostane ros00201
+hostane ros00301
 int gi0/0
 no shutdown
 int gi0/0.2
 encap dot1Q 2
-ip add 10.2.2.254 255.255.255.0
+ip add 10.3.2.254 255.255.255.0
 exit
 int gi0/0.3
 encap dot1Q 3
-ip add 10.2.3.254 255.255.255.0
+ip add 10.3.3.254 255.255.255.0
 exit
 int gi0/0.99
 encap dot1Q 99
-ip add 10.2.99.30 255.255.255.224
+ip add 10.3.99.30 255.255.255.224
 exit
 service dhcp
 ip dhcp pool VLAN2
-network 10.2.2.0
-default-router 10.2.2.254
+network 10.3.2.0
+default-router 10.3.2.254
 dns-server 8.8.8.8
 exit
 service dhcp
 ip dhcp pool VLAN3
-network 10.2.3.0
-default-router 10.2.3.254
+network 10.3.3.0
+default-router 10.3.3.254
 end
 conf t
 int gi0/1
-ip address 192.168.122.20 255.255.255.0
+ip address 192.168.122.30 255.255.255.0
 no shutdown
 ip nat outside
 end
@@ -36,7 +36,7 @@ banner exec^C^C
 banner incomming ^C^C
 banner login ^C
 #############################
-  Connection sur ROS00201
+  Connection sur ROS00301
 #############################
 ^C
 ip route 0.0.0.0 0.0.0.0 192.168.122.10

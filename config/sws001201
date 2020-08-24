@@ -1,5 +1,5 @@
 conf t
-hostname sws001101
+hostane sws001201
 
 vlan 2
 name vlan2
@@ -54,7 +54,7 @@ exit
 ip default-gateway 10.1.99.30
 ip route 0.0.0.0 0.0.0.0 10.1.99.30
 interface vlan 99
-ip address 10.1.99.1 255.255.255.224
+ip address 10.1.99.2 255.255.255.224
 no shutdown
 end
 
@@ -88,7 +88,7 @@ banner exec ^C^C
 banner incoming ^C^C
 banner login ^C
 ###############################
-  Connection sur SW
+  Connection sur SWS001201
 ###############################
 ^C
 ip domain-name local.fr
