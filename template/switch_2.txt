@@ -63,39 +63,27 @@ interface GigabitEthernet 2/2
  switchport mode access
 !
 interface GigabitEthernet 2/3
- description trunk to L2 switch
- switchport trunk encapsulation dot1q
- switchport mode trunk
- switchport trunk allow vlan 2-3,99
- spanning-tree link-type point-to-point
- ip dhcp snooping trust
+ description Fixed VLAN 3
+ switchport access vlan 3
+ switchport mode access
 !
 interface GigabitEthernet 3/0
- description trunk to L2 switch
- switchport trunk encapsulation dot1q
- switchport mode trunk
- switchport trunk allow vlan 2-3,99
- spanning-tree link-type point-to-point
- ip dhcp snooping trust
+ description Fixed VLAN 3
+ switchport access vlan 3
+ switchport mode access
 !
 interface GigabitEthernet 3/1
- description trunk to L2 switch
- switchport trunk encapsulation dot1q
- switchport mode trunk
- switchport trunk allow vlan 2-3,99
- spanning-tree link-type point-to-point
- ip dhcp snooping trust
+ description Fixed VLAN 3
+ switchport access vlan 3
+ switchport mode access
 !
 interface GigabitEthernet 3/2
- description trunk to L2 switch
- switchport trunk encapsulation dot1q
- switchport mode trunk
- switchport trunk allow vlan 2-3,99
- spanning-tree link-type point-to-point
- ip dhcp snooping trust
+ description Fixed VLAN 3
+ switchport access vlan 3
+ switchport mode access
 !
 interface GigabitEthernet 3/3
- description trunk to L2 switch
+ description trunk to L1 switch
  switchport trunk encapsulation dot1q
  switchport mode trunk
  switchport trunk allow vlan 2-3,99
