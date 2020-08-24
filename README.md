@@ -22,8 +22,12 @@ Ce qu'il est requis pour commencer avec votre projet...
 - Pour Linux : un serveur FTP
 - Python 3
 - Créer un utilisateur commun entre le serveur FTP et l'utilisateur des routeurs et switchs
-- Installation de PIP pour Python. !["Linux"](https://linuxize.com/post/how-to-install-pip-on-ubuntu-18.04/) ou !["Windows"](https://docs.aws.amazon.com/fr_fr/elasticbeanstalk/latest/dg/eb-cli3-install-windows.html)
-- Installation de la librairie !["NETMIKO"](https://reseau.network/automatisation_netmiko/)
+- Installation de PIP pour Python. !["Linux"]()
+https://linuxize.com/post/how-to-install-pip-on-ubuntu-18.04/
+ou !["Windows"]()
+https://docs.aws.amazon.com/fr_fr/elasticbeanstalk/latest/dg/eb-cli3-install-windows.html
+- Installation de la librairie !["NETMIKO"]()
+https://reseau.network/automatisation_netmiko/
 
 ### Installation
 
@@ -66,6 +70,7 @@ Editeur "VI".
 
 Pour Windows:
 !["Visual Studio"](https://visualstudio.microsoft.com/fr/).
+https://visualstudio.microsoft.com/fr/
 
 ## Versions
 
