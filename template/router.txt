@@ -41,37 +41,32 @@ int GigabitEthernet 0/1
 !
 !
 ip dhcp pool VLAN2
-network $ip_vlan2 255.255.255.0
-default-router $ip_vlan2_gw
-dns-server 8.8.8.8
-exit
-service dhcp
+ network ip_vlan2 255.255.255.0
+ default-router ip_vlan2_gw
+ dns-server 8.8.8.8
+!
 ip dhcp pool VLAN3
-network $ip_vlan3 255.255.255.0
-default-router $ip_vlan3_gw
-end
-conf t
-int gi0/1
-ip address $ip-wan 255.255.255.0
-no shutdown
-ip nat outside
-end
-conf t
-banner exec^C^C
-banner incomming ^C^C
+ network ip_vlan3 255.255.255.0
+ default-router ip_vlan3_gw
+!
+ip route 0.0.0.0 0.0.0.0 192.168.122.10
+no ip http server
+no ip http secure-server
+!
+no banner exec
+no banner incomming
 banner login ^C
 #############################
-  Connection sur
+  Connection sur ROxxxx
 #############################
 ^C
-ip route 0.0.0.0 0.0.0.0 192.168.122.10
-ip domain-name local.fr
+!
 crypto key generate rsa modulus 1024
+!
+!
 ip ssh version 2
 line vty 0 4
-transport input ssh
-login local
-username field privilege 15 password Azerty@39
-service password-encryption
-enable secret Azerty@39
+ login local
+ transport input ssh
+!
 end
