@@ -57,7 +57,7 @@ $ python3 generate_config.py
 
 Créé sous ![GNS3](https://www.gns3.com/)
 
-![lab](https://github.com/DGreem75/OCprojet6/tree/master/do-not-remove/lab-site.jpg)
+(https://github.com/DGreem75/OCprojet6/tree/master/do-not-remove/lab-site.jpg "lab GNS3")
 
 ## Fabriqué avec
 
@@ -69,7 +69,7 @@ Pour Windows:
 
 ## Versions
 
-Suivant les "branch":
+Suivant les "branches":
 
 Master : pour la version Linux (testé sur Ubuntu 20.04)
 
