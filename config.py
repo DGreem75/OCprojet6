@@ -12,7 +12,7 @@ dir_sav ="sav/"            # répertoire pour les fichiers de backup
 dir_template = "template/" # répertoire pour les templates de config
 file_device = "list_device.csv"  # fichier qui liste les device existants
 
-# Création des site
+# CREATION DES SITES
 def conf_site ():
     os.system("clear")
     print (" \n CREATION D'UN SITE \n")
@@ -25,14 +25,14 @@ def conf_site ():
     
     # définition des VLANs du site
     #     vlan2
-    vlan2_site = "10."+site_number+".2.0"  # définition du lan du VLAN
-    vlan2_site_gw = "10."+site_number+".2.254"  # définition de la gw du VLAN
+    vlan2_site = "10."+site_number+".2.0"  # définition du lan du VLAN2
+    vlan2_site_gw = "10."+site_number+".2.254"  # définition de la gw du VLAN2
     #     vlan3
-    vlan3_site = "10."+site_number+".3.0"  # définition du lan du VLAN
-    vlan3_site_gw = "10."+site_number+".3.254"  # définition de la gw du VLAN
+    vlan3_site = "10."+site_number+".3.0"  # définition du lan du VLAN3
+    vlan3_site_gw = "10."+site_number+".3.254"  # définition de la gw du VLAN3
     #     vlan99
-    vlan99_site = "10."+site_number+".99.0"  # définition du lan du VLAN
-    vlan99_site_gw = "10."+site_number+".99.30"  # définition de la gw du VLAN
+    vlan99_site = "10."+site_number+".99.0"  # définition du lan du VLAN99
+    vlan99_site_gw = "10."+site_number+".99.30"  # définition de la gw du VLAN99
     
     # création du fichier CSV du site
     file = open(file_site, "w")
@@ -163,7 +163,7 @@ def conf_ro ():
     # Récupération des valeurs du sites
     valeur_site = read_site(site)
     
-    # Récupération des valerus nécessaires à la modification du template
+    # Récupération des valeurs nécessaires à la modification du template
     valeur_vlan2 = valeur_site[0]   # récupération valeur de VLAN2
     valeur_vlan3 = valeur_site[1]   # récupération valeur de VLAN3
     valeur_vlan99 = valeur_site[2]  # récupération valeur de VLAN99
@@ -253,7 +253,7 @@ def conf_sw_level2(site,numero_sw):
     sw_number = "sw"+site+"2"+numero_sw.rjust(2,'0')
     sw_file_config = dir_ftp+dir_config+sw_number
 
-    # définition du template du switch niveau1
+    # Récupération du template du switch niveau2
     temp_sw2 = dir_ftp+dir_template+"switch_2.txt"
     temp_switch_config = open(temp_sw2, "r")
     for ligne in temp_switch_config:
