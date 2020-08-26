@@ -6,14 +6,12 @@ from time import strftime, gmtime
 
 os.chdir("/home/david/OCprojet6")
 
-# Définition variable globale
+# Définition des variables globales
 ip_serv_ftp = "10.1.2.100" # adresse ip du serveur FTP
 dir_ftp = "/home/share/"   # répertoire de base du serveur FTP
-dir_site = "site/"         # répertoire pour les fichiers sites
-dir_config ="config/"      # répertoire pour les fichiers des config
 dir_sav ="sav/"            # répertoire pour les fichiers de backup
 dir_log ="log/"            # répertoire pour les fichiers de log
-dir_template = "template/" # répertoire pour les templates de config
+
 file_device = "list_device.csv"  # fichier qui liste les device existants
 
 
@@ -32,12 +30,13 @@ def test_ping(device_ip):
 
 # COMMANDE CISCO A EXECUTER
 def executer_commande_cisco(address_ip, user, passwd, commande):
-    # définition parametre connection Cisco
+    # Définition paramètre connexion Cisco
     cisco = {
             'device_type': 'cisco_ios', 'ip':address_ip,
             'username':user, 'password':passwd,
         }
 
+    # Test et envoie de la commande Cisco
     try:
         net_connect = netmiko.ConnectHandler(**cisco)
         net_connect.enable()
@@ -54,7 +53,7 @@ def executer_commande_cisco(address_ip, user, passwd, commande):
 # Lister les devices pour backup
 devices=[]
 
-# créer la liste des devices à backuper
+# Créer la liste des devices à backuper
 list_file=dir_ftp+file_device
 liste_device = open(list_file, 'r')
 for ligne in liste_device:
@@ -63,13 +62,13 @@ for ligne in liste_device:
     devices.append(l)
 liste_device.close()
 
-# récupérer l'heure
+# Récupérer l'heure
 heure = strftime("%Y-%m-%d_%Hh%M", gmtime())
 print("\n")
 print(heure)
 print("\n")
 
-# définition du nom de fichier de log
+# Définition du nom de fichier de log
 log =dir_ftp+dir_log+"backup_"+heure+".log"
 print(log)
 
@@ -92,7 +91,7 @@ for n_device in range(len(devices)):
         # executer la commande via SSH
         #retour = call(cmd, shell=True)
 
-        # Commande CIsco via NETMIKO
+        # Commande Cisco via NETMIKO
         cmd= "show running-config | redirect ftp://field:Azerty@39@"+ip_serv_ftp+"/"+dir_sav+name_device
         retour = executer_commande_cisco(ip_device,"field","Azerty@39",cmd)
 

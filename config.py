@@ -3,7 +3,7 @@
 # import des modules
 import os
 
-# variable globale
+# Définition des variables globales
 ip_serv_ftp = "10.1.2.100" # adresse ip du serveur FTP
 dir_ftp = "/home/share/"   # répertoire de base du serveur FTP
 dir_site = "site/"         # répertoire pour les fichiers sites
@@ -104,7 +104,7 @@ def write_config(config,file,device):
     os.system("sleep 1")
 
 
-# Création des routeurs
+# CREATION DES ROUTEURS
 def conf_ro ():
     # définition des listes
     config=[]
@@ -113,6 +113,7 @@ def conf_ro ():
     os.system("clear")
     print (" \n CONFIGURATION ROUTEURS \n")
     site_num = 0
+    # Saisir le n° du site à configurer
     while site_num <= 1 and site_num <= 255:
         site_number = input( "Dans quel site vous voulez-créer le routeur ?\n Veuillez saisir un numéro de site entre 2 et 255.\n Saisir le n° du site: ")
         site_num = int(site_number)
@@ -125,6 +126,7 @@ def conf_ro ():
         else:
             print("\n Le fichier de config va être généré.\n")
     
+    # Création du nom du routeur
     site = "s"+ site_number.rjust(3, '0')  # permet d'écrire le numéro du site sur 3 chiffre ex: 1 => 001
     file_site = dir_ftp+dir_site+site+ ".csv"
     ro_number = "ro"+site+"01"
@@ -151,79 +153,66 @@ def conf_ro ():
         exist="oui" # permet de savoir si il faut ajouter le device à la liste de device existant
         os.system("sleep 1")
 
+    # Récupération du template
     temp_ro = dir_ftp+dir_template+"router.txt"
     temp_router_config = open(temp_ro, "r")
     for ligne in temp_router_config:
         config.append(ligne)  # notre template de config est dans une liste
     temp_router_config.close()
 
-    # récupération des valeurs du sites
+    # Récupération des valeurs du sites
     valeur_site = read_site(site)
     
     # Récupération des valerus nécessaires à la modification du template
-    # récupération valeur de VLAN2
-    valeur_vlan2 = valeur_site[0]
-    # récupération valeur de VLAN3
-    valeur_vlan3 = valeur_site[1]
-    # récupération valeur de VLAN99
-    valeur_vlan99 = valeur_site[2]
-    # récupération IP WAN du routeur
-    valeur_ip_wan = valeur_site[3]
+    valeur_vlan2 = valeur_site[0]   # récupération valeur de VLAN2
+    valeur_vlan3 = valeur_site[1]   # récupération valeur de VLAN3
+    valeur_vlan99 = valeur_site[2]  # récupération valeur de VLAN99
+    valeur_ip_wan = valeur_site[3]  # récupération IP WAN du routeur
 
-    # modification des variables du template
-    # hostname
-    config[3]="hostname "+ro_number+"\n"
-    # ip de la gw du vlan2
-    config[23]="ip address "+valeur_vlan2[4]+" "+valeur_vlan2[3]+"\n"
-    # ip de la gw du vlan3
-    config[28]="ip address "+valeur_vlan3[4]+" "+valeur_vlan3[3]+"\n"
-    # ip de la gw du vlan99
-    config[33]="ip address "+valeur_vlan99[4]+" "+valeur_vlan99[3]+"\n"
-    # ip wan du routeur
-    config[37]="ip address "+valeur_ip_wan[2]+" "+valeur_ip_wan[3]+"\n"
-    # ip dhcp et gw du vlan2
-    config[43]=" network "+valeur_vlan2[2]+" "+valeur_vlan2[3]+"\n"
-    config[44]=" default-router "+valeur_vlan2[4]+"\n"
-    # ip dhcp et gw du vlan3
-    config[48]=" network "+valeur_vlan3[2]+" "+valeur_vlan3[3]+"\n"
-    config[49]=" default-router "+valeur_vlan3[4]+"\n"
-    # banniere
-    config[59]="  Connection sur "+ro_number.upper()+"\n"
-    #print(config)
+    # Génération de la configuration
     
-    # ecrire le fichier dans "config"
+    config[3]="hostname "+ro_number+"\n"    # hostname
+    config[23]="ip address "+valeur_vlan2[4]+" "+valeur_vlan2[3]+"\n"   # ip de la gw du vlan2
+    config[28]="ip address "+valeur_vlan3[4]+" "+valeur_vlan3[3]+"\n"   # ip de la gw du vlan3
+    config[33]="ip address "+valeur_vlan99[4]+" "+valeur_vlan99[3]+"\n" # ip de la gw du vlan99
+    config[37]="ip address "+valeur_ip_wan[2]+" "+valeur_ip_wan[3]+"\n" # ip wan du routeur
+    config[43]=" network "+valeur_vlan2[2]+" "+valeur_vlan2[3]+"\n" # ip dhcp et gw du vlan2
+    config[44]=" default-router "+valeur_vlan2[4]+"\n"
+    config[48]=" network "+valeur_vlan3[2]+" "+valeur_vlan3[3]+"\n" # ip dhcp et gw du vlan3
+    config[49]=" default-router "+valeur_vlan3[4]+"\n"
+    config[59]="  Connection sur "+ro_number.upper()+"\n" # banniere
+    
+    # Ecrire le fichier dans "config"
     write_config(config,ro_file_config,ro_number)
     
-    #ajouter le device à la liste de devices existant pour le backup
+    # Ajouter le device à la liste de devices existant pour le backup
     write_list_device(exist,ro_number, valeur_vlan99[4])
 
-# Création des switchs
 
-# fonctions suivant le niveau des switchs.
+# CREATION DES SWICTHS
+
+# Création switch LEVEL 1
 def conf_sw_level1(site):
     # définition liste
     config=[]
 
-    #definition nom du switch
+    # Définition nom du switch
     #création du numero de switch ex: sws001101
     sw_number = "sw"+site+"101"
     sw_file_config = dir_ftp+dir_config+sw_number
 
-    # définition du template du switch niveau1
+    # Récupération du template du switch niveau1
     temp_sw1 = dir_ftp+dir_template+"switch_1.txt"
     temp_switch_config = open(temp_sw1, "r")
     for ligne in temp_switch_config:
         config.append(ligne)  # notre template de config est dans une liste
     temp_switch_config.close()
 
-    # récupération des valeurs du sites
+    # Récupération des valeurs du sites
     valeur_site = read_site(site)
-
-    # générer fichier de config
-    # récupération valeur de VLAN99
-    valeur_vlan99 = valeur_site[2]
-    #adresse ip du switch dans le VLAN99 suivant niveau et numéro de switch
-    ip_lan_vlan99 = valeur_vlan99[2]  # retour ok adresse ip du lan
+    
+    valeur_vlan99 = valeur_site[2]  # récupération valeur de VLAN99
+    ip_lan_vlan99 = valeur_vlan99[2]  # récupération adresse ip du vlan99
 
     ip_sw_vlan99=ip_lan_vlan99.split(".") # découpage de l'adresse IP dans une liste
     ip_sw_vlan99[3]="1"
@@ -231,15 +220,12 @@ def conf_sw_level1(site):
     #reconstitution adresse IP du switch
     ip_sw = ip_sw_vlan99[0]+"."+ip_sw_vlan99[1]+"."+ip_sw_vlan99[2]+"."+ip_sw_vlan99[3]
 
-    # modification des variables $ du template
-    # hostname en ligne 2
-    config[3]="hostname "+sw_number+"\n"
-    # config IP dans vlan99 management
-    config[119]="ip address "+ip_sw+" "+valeur_vlan99[3]+"\n"
+    # Génération de la configuration
+    config[3]="hostname "+sw_number+"\n"    # hostname en ligne 2
+    config[119]="ip address "+ip_sw+" "+valeur_vlan99[3]+"\n"   # config IP dans vlan99 management
     config[121]="ip default-gateway "+valeur_vlan99[4]+"\n"
     config[122]="ip route 0.0.0.0 0.0.0.0 "+valeur_vlan99[4]+"\n"
-    # config bannière
-    config[131]="  Connection sur "+sw_number.upper()+"\n"
+    config[131]="  Connection sur "+sw_number.upper()+"\n" # config bannière
 
     try:   # test si le fichier de config du switch existe déjà
         open(sw_file_config, 'r')
@@ -258,6 +244,8 @@ def conf_sw_level1(site):
     #ajouter le device à la liste de devices existant pour le backup
     write_list_device(exist,sw_number, ip_sw)
 
+
+# Création switch LEVEL 2
 def conf_sw_level2(site,numero_sw):
     # définition liste, variable
     config=[]
@@ -275,11 +263,8 @@ def conf_sw_level2(site,numero_sw):
     # récupération des valeurs du sites
     valeur_site = read_site(site)
 
-    # générer fichier de config
-    # récupération valeur de VLAN99
-    valeur_vlan99 = valeur_site[2]
-    #adresse ip du switch dans le VLAN99 suivant niveau et numéro de switch
-    ip_lan_vlan99 = valeur_vlan99[2]  # retour ok adresse ip du lan
+    valeur_vlan99 = valeur_site[2]  # récupération valeur de VLAN99
+    ip_lan_vlan99 = valeur_vlan99[2]  # récupération adresse ip du vlan99
 
     ip_sw_vlan99=ip_lan_vlan99.split(".") # découpage de l'adresse IP dans une liste
     ip_sw_vlan99[3]=num_sw+1
@@ -288,15 +273,12 @@ def conf_sw_level2(site,numero_sw):
     #reconstitution adresse IP du switch
     ip_sw = ip_sw_vlan99[0]+"."+ip_sw_vlan99[1]+"."+ip_sw_vlan99[2]+"."+ip_sw_vlan99[3]
 
-    # modification des variables $ du template
-    # hostname en ligne 2
-    config[3]="hostname "+sw_number+"\n"
-    # config IP dans vlan99 management
-    config[107]=" ip address "+ip_sw+" "+valeur_vlan99[3]+"\n"
+    # Génération de la configuration
+    config[3]="hostname "+sw_number+"\n"    # hostname en ligne 2
+    config[107]=" ip address "+ip_sw+" "+valeur_vlan99[3]+"\n"  # config IP dans vlan99 management
     config[109]="ip default-gateway "+valeur_vlan99[4]+"\n"
     config[110]="ip route 0.0.0.0 0.0.0.0 "+valeur_vlan99[4]+"\n"
-        # config bannière
-    config[119]="  Connection sur "+sw_number.upper()+"\n"
+    config[119]="  Connection sur "+sw_number.upper()+"\n"  # config bannière
 
     try:   # test si le fichier de config du switch existe déjà
         open(sw_file_config, 'r')
@@ -322,6 +304,7 @@ def conf_sw ():
     os.system("clear")
     print ("\n CONFIGURATION SWITCHS \n")
     site_num = 0
+    # Saisir le N° du site à configurer
     while site_num < 1 and site_num <= 255:
         site_number = input( "Dans quel site vous voulez-créer le switch ?\n Veuillez saisir un numéro de site entre 1 et 255.\n Saisir le n° du site: ")
         site_num = int(site_number)
@@ -343,13 +326,13 @@ def conf_sw ():
         print ("\n  Le site existe ! ")
         os.system("sleep 1")
     
-    # quel niveau de switch doit être créé
+    # Saisir quel niveau de switch doit être créé
     niv_sw = 0
     while niv_sw < 1 or niv_sw > 2:
         niveau_sw = input(" Saisir le niveau du switch 1 ou 2: ")
         niv_sw = int(niveau_sw)
 
-    # quel numéro de switch doit être créé
+    # Saisir quel numéro de switch doit être créé
     if niv_sw == 2:
         num_sw = 0
         while num_sw < 1 or num_sw > 20:
