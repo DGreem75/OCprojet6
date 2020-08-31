@@ -63,7 +63,7 @@ $ python3 generate_config.py
 
 ## Utilisation
 
-Depuis le menu, créer vos sites, le siten°1 étant le site mère dont le routeur sera géré manuelment.
+Depuis le menu, créer vos sites, le siten°1 étant le site mère dont le routeur sera géré manuellement.
 
 Puis créer vos routeurs et switchs.
 
