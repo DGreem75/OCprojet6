@@ -61,6 +61,16 @@ $ python3 generate_config.py
 
 ![Menu](https://raw.githubusercontent.com/DGreem75/OCprojet6/master/do-not-remove/menu_p6.jpg "menu")
 
+## Utilisation
+
+Depuis le menu, créer vos sites, le siten°1 étant le site mère dont le routeur sera géré manuelment.
+
+Puis créer vos routeurs et switchs.
+
+Pour le backup, le script peut-être lancer depuis l'application, mais pourra aussi être planifier depuis "kron" pour Linux ou "tâches planifiées" pour Windows.
+
+Pour la modification du script et plus de compréhension suivez la ![documentation.](https://github.com/DGreem75/OCprojet6/blob/master/doc/detail_utilisation_script.pdf)
+
 ## Fabriqué avec
 
 Pour Linux:
